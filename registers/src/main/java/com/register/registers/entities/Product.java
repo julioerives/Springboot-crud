@@ -1,6 +1,5 @@
 package com.register.registers.entities;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +17,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Users user;
 
     @ManyToOne
     @JoinColumn(name = "product_type_id", nullable = true)
@@ -30,10 +29,10 @@ public class Product {
     public void setProductId(Long productId) {
         this.productId = productId;
     }
-    public User getUser() {
+    public Users getUser() {
         return user;
     }
-    public void setUser(User user) {
+    public void setUser(Users user) {
         this.user = user;
     }
     public ProductType getProductType() {

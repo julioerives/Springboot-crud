@@ -1,4 +1,4 @@
-package com.register.constants;
+package com.register.registers.constants;
 
 public class SuccessResponse {
     public static final String SUCCESS_PUT = "Registro actualizado correctamente";

@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.register.constants.ErrorMessages;
-import com.register.constants.SuccessResponse;
+import com.register.registers.constants.ErrorMessages;
+import com.register.registers.constants.SuccessResponse;
 import com.register.registers.entities.Users;
 import com.register.registers.interfaces.Response;
 import com.register.registers.repositories.UserRepository;
 
 @RestController
-@RequestMapping("/spendRegisters")
+@RequestMapping("/users")
 public class UsersController {
     @Autowired
     private UserRepository userRepository;

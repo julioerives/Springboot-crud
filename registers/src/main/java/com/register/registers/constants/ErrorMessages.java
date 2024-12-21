@@ -1,4 +1,4 @@
-package com.register.constants;
+package com.register.registers.constants;
 
 
 public class ErrorMessages {
