@@ -9,6 +9,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.register.registers.constants.ErrorMessages;
+
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,19 +27,32 @@ public class JWTFilter extends OncePerRequestFilter {
         String headers = request.getHeader("Authorization");
         String token = null;
         String useremail = null;
-        
-        if (headers != null && headers.startsWith("Bearer ")) {
-            token = headers.substring(7);
-            useremail = jwtService.extractEmail(token);
-        }
-        
-        if (useremail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            if (jwtService.validateToken(token)) {
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(useremail, null, new ArrayList<>());
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+        try{
+            if (headers != null && headers.startsWith("Bearer ")) {
+                token = headers.substring(7);
+                useremail = jwtService.extractEmail(token);
             }
+
+            if (jwtService.validateToken(token)) {
+                UsernamePasswordAuthenticationToken authToken = 
+                    new UsernamePasswordAuthenticationToken(useremail, null, new ArrayList<>());
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+                filterChain.doFilter(request, response);
+            } else {
+                sendAuthenticationError(response, "invalid_token", ErrorMessages.DEFAULT_ERROR_TOKEN);
+            }
+            
+            filterChain.doFilter(request, response);
+        }catch(ExpiredJwtException e){
+            sendAuthenticationError(response, "expired_token", ErrorMessages.EXPIRED_TOKEN);
+        }catch(MalformedJwtException e){
+            sendAuthenticationError(response, "invalid_token", ErrorMessages.EXPIRED_TOKEN);
         }
-        
-        filterChain.doFilter(request, response);
+    }
+    private void sendAuthenticationError(HttpServletResponse response,String error,String description){
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setHeader("WWW-Authenticate", String.format("Bearer error=\"%s\", error_description=\"%s\"", error, description));
+        response.setHeader("Cache-Control", "no-store");
+        response.setHeader("Pragma", "no-cache");
     }
 }
