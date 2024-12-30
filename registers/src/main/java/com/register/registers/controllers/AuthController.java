@@ -25,11 +25,12 @@ public class AuthController {
     @PostMapping("/")
     public ResponseEntity<Response<AuthResponse>> logIn(@RequestBody Users user){
         try {
-            Users userFound = userService.login(user); 
+            AuthResponse userFound = userService.login(user); 
             return buildSuccessResponse(userFound, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
         } catch (AuthenticationException e) {
             return buildErrorResponse(ErrorMessages.NO_DATA_FOUND, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return buildErrorResponse(ErrorMessages.DEFAULT_ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -37,9 +38,8 @@ public class AuthController {
     public ResponseEntity<Response<AuthResponse>> signIn(@RequestBody Users user){
         try{
             
-            Users userSaved = userService.singIn(user);
-            AuthResponse userAuth = new AuthResponse(null, userSaved);
-            Response<AuthResponse> response = new Response<>(userAuth,SuccessResponse.SUCCESS_POST,false);
+            AuthResponse userSaved = userService.singIn(user);
+            Response<AuthResponse> response = new Response<>(userSaved,SuccessResponse.SUCCESS_POST,false);
             return new ResponseEntity<>(response,HttpStatus.ACCEPTED);
         }catch(Exception e){
             Response<AuthResponse> response = new Response<>(null,ErrorMessages.DEFAULT_ERROR,true);
@@ -48,9 +48,8 @@ public class AuthController {
         }
 
     }
-    private ResponseEntity<Response<AuthResponse>> buildSuccessResponse(Users user, String message, HttpStatus status) {
-        AuthResponse authResponse = new AuthResponse(null, user);
-        Response<AuthResponse> response = new Response<>(authResponse, message, false);
+    private ResponseEntity<Response<AuthResponse>> buildSuccessResponse(AuthResponse user, String message, HttpStatus status) {
+        Response<AuthResponse> response = new Response<>(user, message, false);
         return new ResponseEntity<>(response, status);
     }
 
