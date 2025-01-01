@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.register.exceptions.AuthenticationException;
 import com.register.registers.dto.AuthResponse;
 import com.register.registers.entities.Users;
+import com.register.registers.exceptions.AuthenticationException;
+import com.register.registers.exceptions.UsersExceptions.UserNotFoundException;
 import com.register.registers.repositories.UserRepository;
 import com.register.registers.services.jwtServices.JWTService;
 
@@ -38,6 +39,10 @@ public class UserService {
         }
         AuthResponse authResponse = new AuthResponse(jwtService.generateToken(user.getEmail()),userFound.get());
         return authResponse;
+    }
+    public Users  findUserById(Long id){
+        return userRepository.findById(id)
+        .orElseThrow(()->new UserNotFoundException("Usuario no encontrado"));
     }
     
 }

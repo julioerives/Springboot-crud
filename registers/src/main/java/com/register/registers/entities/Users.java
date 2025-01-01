@@ -15,24 +15,25 @@ import jakarta.persistence.GenerationType;
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long user_id;
+    private long userId;
 
     private String email;
-    @Column(name = "password_hash")  // Mapea al nombre de columna en la base de datos
+    @Column(name = "password_hash")
     private String passwordHash; 
+
+    public long getUserId() {
+        return userId;
+    }
+
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date created_at;
 
     public Users() {
-    }
-
-    public long getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(long user_id) {
-        this.user_id = user_id;
     }
 
     public String getEmail() {

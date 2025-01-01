@@ -23,7 +23,11 @@ public class JWTService {
     }
     public String generateToken(String name){
         Map<String,Object> claims =new HashMap<>();
-        return Jwts.builder().claims().add(claims).subject(name).issuedAt(new Date(System.currentTimeMillis())).expiration(new Date(System.currentTimeMillis()*60*60*10))
+        return Jwts.builder()
+        .claims().add(claims)
+        .subject(name)
+        .issuedAt(new Date(System.currentTimeMillis()))
+        .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
         .and()
         .signWith(getKey())
         .compact();

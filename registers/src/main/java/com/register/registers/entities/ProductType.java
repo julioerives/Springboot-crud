@@ -2,6 +2,8 @@ package com.register.registers.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,6 +18,7 @@ public class ProductType {
     private Long product_type_id;
     @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
+    @JsonIgnore
     private Users user;
     private String name;
     private String description;

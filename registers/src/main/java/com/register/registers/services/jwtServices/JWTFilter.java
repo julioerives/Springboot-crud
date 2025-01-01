@@ -37,17 +37,16 @@ public class JWTFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken authToken = 
                     new UsernamePasswordAuthenticationToken(useremail, null, new ArrayList<>());
                 SecurityContextHolder.getContext().setAuthentication(authToken);
-                filterChain.doFilter(request, response);
             } else {
                 sendAuthenticationError(response, "invalid_token", ErrorMessages.DEFAULT_ERROR_TOKEN);
             }
             
-            filterChain.doFilter(request, response);
         }catch(ExpiredJwtException e){
             sendAuthenticationError(response, "expired_token", ErrorMessages.EXPIRED_TOKEN);
         }catch(MalformedJwtException e){
             sendAuthenticationError(response, "invalid_token", ErrorMessages.EXPIRED_TOKEN);
         }
+        filterChain.doFilter(request, response);
     }
     private void sendAuthenticationError(HttpServletResponse response,String error,String description){
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
