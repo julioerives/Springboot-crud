@@ -15,7 +15,7 @@ import jakarta.persistence.OneToMany;
 public class ProductType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long product_type_id;
+    private Long productTypeId;
     @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
     @JsonIgnore
@@ -23,14 +23,14 @@ public class ProductType {
     private String name;
     private String description;
     private String colorRgba;
+    public Long getProductTypeId() {
+        return productTypeId;
+    }
+    public void setProductTypeId(Long productTypeId) {
+        this.productTypeId = productTypeId;
+    }
     @OneToMany(mappedBy = "productType")
     private List<Product> products;
-    public Long getProduct_type_id() {
-        return product_type_id;
-    }
-    public void setProduct_type_id(Long product_type_id) {
-        this.product_type_id = product_type_id;
-    }
     public Users getUser() {
         return user;
     }

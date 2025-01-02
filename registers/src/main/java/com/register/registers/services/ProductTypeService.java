@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.register.registers.dto.ProductTypeRequestDTO;
 import com.register.registers.entities.ProductType;
 import com.register.registers.entities.Users;
+import com.register.registers.exceptions.producTypeExceptions.ProductTypeNotFound;
 import com.register.registers.repositories.ProductTypeRepository;
 @Service
 public class ProductTypeService {
@@ -29,5 +30,8 @@ public class ProductTypeService {
     }
     public List<ProductType> getProductTypesUser(Long id_user) {
         return productTypeRepository.findByUserUserId(id_user);
+    }
+    public ProductType getProductTypeByIdAndUser(Long productTypeId,Long id_user) {
+        return productTypeRepository.findByProductTypeIdAndUserUserId(productTypeId,id_user).orElseThrow(()-> new ProductTypeNotFound("Tipo de producto no encontrado."));
     }
 }
