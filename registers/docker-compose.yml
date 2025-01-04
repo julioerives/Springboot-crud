@@ -1,3 +1,4 @@
+version: '3'
 services:
 
   db:
@@ -11,4 +12,27 @@ services:
       POSTGRES_PASSWORD: 12345678
       POSTGRES_DB: registers
     ports:
-      - "5433:5432"
+      - "5432:5432"
+    networks:
+      - register-net
+
+  app:
+    build:
+      context: . 
+      dockerfile: Dockerfile
+    container_name: registers-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/registers
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 12345678
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    networks:
+      - register-net
+
+networks:
+  register-net:
+    driver: bridge
