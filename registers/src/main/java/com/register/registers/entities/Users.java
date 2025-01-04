@@ -16,7 +16,7 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userId;
-
+    @Column(unique = true)
     private String email;
     @Column(name = "password_hash")
     private String passwordHash; 
