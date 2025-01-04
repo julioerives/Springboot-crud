@@ -8,8 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.register.registers.dto.AuthResponse;
 import com.register.registers.entities.Users;
-import com.register.registers.exceptions.AuthenticationException;
 import com.register.registers.exceptions.UsersExceptions.UserNotFoundException;
+import com.register.registers.exceptions.authExceptions.AuthenticationException;
+import com.register.registers.exceptions.authExceptions.EmailUsedException;
 import com.register.registers.repositories.UserRepository;
 import com.register.registers.services.jwtServices.JWTService;
 
@@ -21,9 +22,13 @@ public class UserService {
     private JWTService jwtService;
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
     public AuthResponse singIn(Users user){
+        Optional<Users> userFound = userRepository.findByEmail(user.getEmail());
+        if (userFound.isPresent()) {
+            throw new EmailUsedException("Correo en uso");
+        }
         user.setPassword_hash(passwordEncoder.encode(user.getPassword_hash()));
         Users userReturn = userRepository.save(user);
-        AuthResponse authResponse = new AuthResponse("",userReturn);
+        AuthResponse authResponse = new AuthResponse(jwtService.generateToken(user.getEmail()),userReturn);
         return authResponse;
     }
     public AuthResponse login(Users user) {

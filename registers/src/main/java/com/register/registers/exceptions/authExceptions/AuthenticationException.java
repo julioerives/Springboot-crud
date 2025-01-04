@@ -1,4 +1,4 @@
-package com.register.registers.exceptions;
+package com.register.registers.exceptions.authExceptions;
 
 public class AuthenticationException extends RuntimeException {
     public AuthenticationException(String message){
