@@ -24,12 +24,19 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "product_type_id", nullable = true)
     private ProductType productType;
+    private Float price;
 
     public Long getProductId() {
         return productId;
     }
     public void setProductId(Long productId) {
         this.productId = productId;
+    }
+    public Float getPrice() {
+        return price;
+    }
+    public void setPrice(Float price) {
+        this.price = price;
     }
     public Users getUser() {
         return user;

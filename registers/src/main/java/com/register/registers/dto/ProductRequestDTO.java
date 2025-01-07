@@ -4,6 +4,15 @@ public class ProductRequestDTO {
         private Long userId;
         private Long typeProductId;
         private String name;
+        public Float getPrice() {
+            return price;
+        }
+
+        public void setPrice(Float price) {
+            this.price = price;
+        }
+
+        private Float price;
         public Long getUserId() {
             return userId;
         }
