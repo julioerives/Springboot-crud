@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.register.registers.dto.AuthResponse;
 import com.register.registers.entities.Users;
 import com.register.registers.exceptions.UsersExceptions.UserNotFoundException;
 import com.register.registers.exceptions.authExceptions.AuthenticationException;
@@ -14,24 +13,30 @@ import com.register.registers.exceptions.authExceptions.EmailUsedException;
 import com.register.registers.repositories.UserRepository;
 import com.register.registers.services.jwtServices.JWTService;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private JWTService jwtService;
+    @Autowired
+    private CookiesService cookiesService;
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
-    public AuthResponse singIn(Users user){
+    public Users singIn(Users user,HttpServletResponse hServletResponse){
         Optional<Users> userFound = userRepository.findByEmail(user.getEmail());
         if (userFound.isPresent()) {
             throw new EmailUsedException("Correo en uso");
         }
         user.setPassword_hash(passwordEncoder.encode(user.getPassword_hash()));
         Users userReturn = userRepository.save(user);
-        AuthResponse authResponse = new AuthResponse(jwtService.generateToken(user.getEmail()),userReturn);
-        return authResponse;
+        String token = jwtService.generateToken(user.getEmail());
+
+        cookiesService.addCookie(hServletResponse, "token", token, 10);
+        return userReturn;
     }
-    public AuthResponse login(Users user) {
+    public Users login(Users user,HttpServletResponse hServletResponse) {
         Optional<Users> userFound = userRepository.findByEmail(user.getEmail());
         if (userFound.isEmpty()) {
             System.out.println("Usuario no encontrado");
@@ -42,8 +47,9 @@ public class UserService {
             System.out.println("Contraseña incorrecta");
             throw new AuthenticationException("Credenciales incorrectas");
         }
-        AuthResponse authResponse = new AuthResponse(jwtService.generateToken(user.getEmail()),userFound.get());
-        return authResponse;
+        String token = jwtService.generateToken(user.getEmail());
+        cookiesService.addCookie(hServletResponse, "token", token, 10);
+        return userFound.get();
     }
     public Users  findUserById(Long id){
         return userRepository.findById(id)
