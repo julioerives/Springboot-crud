@@ -17,7 +17,7 @@ public class IncomeType {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
-    private Users users;
+    private Users user;
     private String name;
     private String description;
     private String colorRgba;
@@ -29,11 +29,11 @@ public class IncomeType {
         this.incomeTypeId = incomeTypeId;
     }
 
-    public Users getUsers() {
-        return users;
+    public Users getUser() {
+        return user;
     }
-    public void setUsers(Users users) {
-        this.users = users;
+    public void setUser(Users users) {
+        this.user = users;
     }
     
     public String getName() {
