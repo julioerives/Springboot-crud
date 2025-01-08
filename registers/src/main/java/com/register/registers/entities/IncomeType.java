@@ -28,6 +28,13 @@ public class IncomeType {
     public void setIncomeTypeId(Long incomeTypeId) {
         this.incomeTypeId = incomeTypeId;
     }
+
+    public Users getUsers() {
+        return users;
+    }
+    public void setUsers(Users users) {
+        this.users = users;
+    }
     
     public String getName() {
         return name;
