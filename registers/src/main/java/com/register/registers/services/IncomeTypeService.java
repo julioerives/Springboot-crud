@@ -29,6 +29,8 @@ public class IncomeTypeService {
     }
     public List<IncomeType> getIncomeTypes(Long userId){
         return incomeTypeRepository.findByUserUserId(userId).orElseThrow(()-> new ResourceNotFoundException("Tipo de ingreso no encontrado"));
-
+    }
+    public IncomeType getIncomeTypeByIdAndIdUser(Long userId, Long incomeTypeId){
+        return incomeTypeRepository.findByUserUserIdAndIncomeTypeId(userId, incomeTypeId).orElseThrow(()-> new ResourceNotFoundException("Tipo de ingreso no encontrado")); 
     }
 }
