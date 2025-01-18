@@ -1,7 +1,6 @@
 package com.register.registers.services;
 
-import java.sql.Date;
-import java.util.List;
+import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -35,9 +34,10 @@ public class IncomeService {
         income.setDate(incomeRequestDTO.getDate());
         return incomeRepository.save(income);
     }
-    public Page<Income> getIncomesByIdUser(Long userId,Date startDate,Date endDate, int page, int size) {
+    public Page<Income> getIncomesByIdUser(Long userId,LocalDate startDate,LocalDate endDate, int page, int size) {
         userService.findUserById(userId);
         Pageable pageable = PageRequest.of(page, size, Sort.by("date").ascending());
-        return incomeRepository.findByUserUserIdAndDateBetween(userId,startDate,endDate,pageable);
+        Page<Income> result = incomeRepository.findByUserUserIdAndDateBetween(userId, startDate, endDate, pageable);
+        return result;
     }
 }

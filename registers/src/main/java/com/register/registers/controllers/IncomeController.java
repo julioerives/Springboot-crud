@@ -1,6 +1,6 @@
 package com.register.registers.controllers;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.register.registers.constants.ErrorMessages;
 import com.register.registers.constants.SuccessResponse;
 import com.register.registers.dto.IncomeRequestDTO;
+import com.register.registers.dto.PageDTOResponse;
 import com.register.registers.entities.Income;
 import com.register.registers.exceptions.UsersExceptions.UserNotFoundException;
 import com.register.registers.interfaces.Response;
@@ -41,16 +42,17 @@ public class IncomeController {
         }
     }
     @GetMapping("")
-    public ResponseEntity<Response<Page<Income>>> getIncomes(
+    public ResponseEntity<Response<PageDTOResponse<Income>>> getIncomes(
         @RequestParam("userId") Long userId,
         @RequestParam("page") int page,
         @RequestParam("size") int size,
-        @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-        @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate
+        @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+        @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
     ){
 
         try{
-            Page<Income> response = incomeService.getIncomesByIdUser(userId, startDate, endDate, page, size);
+            Page<Income> pageIncome = incomeService.getIncomesByIdUser(userId, startDate, endDate, page, size);
+            PageDTOResponse<Income> response = new PageDTOResponse<>(pageIncome);
             return responseService.buildSuccessResponse(response, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
         }catch(UserNotFoundException e){
             System.out.println(e.getMessage());
