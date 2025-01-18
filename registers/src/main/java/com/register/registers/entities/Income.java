@@ -1,5 +1,6 @@
 package com.register.registers.entities;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,6 +30,7 @@ public class Income {
     private IncomeType incomeType;
     private Float quantity;
     private String description;
+    private Date date;
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -76,5 +78,11 @@ public class Income {
     public void setUpdateAt(LocalDateTime updateAt) {
         this.updateAt = updateAt;
     }
-
+    public Date getDate() {
+        return date;
+    }
+    public void setDate(Date date) {
+        this.date = date;
+    }
+    
 }

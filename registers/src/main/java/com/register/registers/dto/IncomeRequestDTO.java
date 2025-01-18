@@ -1,10 +1,13 @@
 package com.register.registers.dto;
 
+import java.sql.Date;
+
 public class IncomeRequestDTO {
     private Long userId;
     private Long incomeTypeId;
     private Float quantity;
     private String description;
+    private Date date;
     public Long getUserId() {
         return userId;
     }
@@ -28,6 +31,12 @@ public class IncomeRequestDTO {
     }
     public void setDescription(String description) {
         this.description = description;
+    }
+    public Date getDate() {
+        return date;
+    }
+    public void setDate(Date date) {
+        this.date = date;
     }
     
 }
