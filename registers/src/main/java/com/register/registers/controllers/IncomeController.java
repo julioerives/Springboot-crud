@@ -63,7 +63,7 @@ public class IncomeController {
             return responseService.buildSuccessResponse(response, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
         }catch(UserNotFoundException e){
             System.out.println(e.getMessage());
-            return responseService.buildErrorResponse( "Usuario no encontrado", HttpStatus.NOT_FOUND);
+            return responseService.buildErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(Exception e){
             System.out.println(e.getMessage());
             return responseService.buildErrorResponse(ErrorMessages.DEFAULT_ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
