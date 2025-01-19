@@ -20,6 +20,7 @@ import com.register.registers.dto.IncomeRequestDTO;
 import com.register.registers.dto.PageDTOResponse;
 import com.register.registers.entities.Income;
 import com.register.registers.exceptions.UsersExceptions.UserNotFoundException;
+import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
 import com.register.registers.interfaces.Response;
 import com.register.registers.services.IncomeService;
 import com.register.registers.services.ResponseService;
@@ -36,6 +37,12 @@ public class IncomeController {
         try{
             Income income = incomeService.newIncome(iRequestDTO);
             return responseService.buildSuccessResponse(income, SuccessResponse.SUCCESS_POST, HttpStatus.OK);
+        }catch(UserNotFoundException e){
+            System.out.println(e.getMessage());
+            return responseService.buildErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND);
+        }catch(ResourceNotFoundException e){
+            System.out.println(e.getMessage());
+            return responseService.buildErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(Exception e){
             System.err.println(e.getMessage());
             return responseService.buildErrorResponse(ErrorMessages.DEFAULT_ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
