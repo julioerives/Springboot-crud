@@ -24,6 +24,12 @@ public class Users {
     @JsonIgnore
     private String passwordHash; 
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created_at;
+
+    public Users() {
+    }
+
     public long getUserId() {
         return userId;
     }
@@ -31,12 +37,6 @@ public class Users {
 
     public void setUserId(long userId) {
         this.userId = userId;
-    }
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date created_at;
-
-    public Users() {
     }
 
     public String getEmail() {
