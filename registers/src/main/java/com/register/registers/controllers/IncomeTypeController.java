@@ -34,7 +34,7 @@ public class IncomeTypeController {
     public ResponseEntity<Response<IncomeType>> addIncomeType(@RequestBody IncomeTypeRequestDTO iRequestDTO){
         try{
             IncomeType incomeType = incomeTypeService.addIncomeType(iRequestDTO);
-            return responseService.buildSuccessResponse(incomeType, SuccessResponse.SUCCESS_POST, HttpStatus.OK);
+            return responseService.buildSuccessResponse(incomeType, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
         }catch(UserNotFoundException e){
             return responseService.buildErrorResponse(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(Exception e){

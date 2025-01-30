@@ -32,7 +32,7 @@ public class PurchasesController {
     public ResponseEntity<Response<Purchases>> addPurchases(@RequestBody PurchasesRequestDTO pRequestDTO){
         try{
             Purchases purchases = purchasesService.newPurchase(pRequestDTO);
-            return responseService.buildSuccessResponse(purchases,SuccessResponse.SUCCESS_POST, HttpStatus.OK);
+            return responseService.buildSuccessResponse(purchases,SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
         }catch(ResourceNotFoundException e){
             System.out.println(e.getMessage());
             return responseService.buildErrorResponse(e.getMessage(),HttpStatus.BAD_REQUEST);

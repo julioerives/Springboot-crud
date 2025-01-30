@@ -32,7 +32,7 @@ public class ProductTypeController {
     public ResponseEntity<Response<ProductType>> addProductType(@RequestBody ProductTypeRequestDTO productTypeBody){
         try{
             ProductType productType = productTypeService.addProductType(productTypeBody);
-            return responseService.buildSuccessResponse(productType, SuccessResponse.SUCCESS_POST, HttpStatus.OK);
+            return responseService.buildSuccessResponse(productType, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
         }catch(UserNotFoundException e){
             System.out.println(e.getMessage());
             return responseService.buildErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
