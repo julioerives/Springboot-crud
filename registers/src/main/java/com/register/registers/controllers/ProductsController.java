@@ -19,8 +19,8 @@ import com.register.registers.entities.Product;
 import com.register.registers.exceptions.UsersExceptions.UserNotFoundException;
 import com.register.registers.exceptions.producTypeExceptions.ProductTypeNotFound;
 import com.register.registers.interfaces.Response;
-import com.register.registers.services.ProductService;
-import com.register.registers.services.ResponseService;
+import com.register.registers.services.products.ProductService;
+import com.register.registers.services.utils.ResponseService;
 
 @RestController
 @RequestMapping("/products")

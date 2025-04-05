@@ -18,8 +18,8 @@ import com.register.registers.dto.PurchasesRequestDTO;
 import com.register.registers.entities.Purchases;
 import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
 import com.register.registers.interfaces.Response;
-import com.register.registers.services.PurchasesService;
-import com.register.registers.services.ResponseService;
+import com.register.registers.services.purchases.PurchasesService;
+import com.register.registers.services.utils.ResponseService;
 
 @RequestMapping("/purchases")
 @RestController

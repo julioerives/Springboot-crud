@@ -1,4 +1,4 @@
-package com.register.registers.services;
+package com.register.registers.services.utils;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

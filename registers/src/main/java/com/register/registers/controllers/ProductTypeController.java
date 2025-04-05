@@ -18,8 +18,8 @@ import com.register.registers.dto.ProductTypeRequestDTO;
 import com.register.registers.entities.ProductType;
 import com.register.registers.exceptions.UsersExceptions.UserNotFoundException;
 import com.register.registers.interfaces.Response;
-import com.register.registers.services.ProductTypeService;
-import com.register.registers.services.ResponseService;
+import com.register.registers.services.products.ProductTypeService;
+import com.register.registers.services.utils.ResponseService;
 
 @RestController
 @RequestMapping("/type_products")

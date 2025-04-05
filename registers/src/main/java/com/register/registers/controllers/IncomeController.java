@@ -22,8 +22,8 @@ import com.register.registers.entities.Income;
 import com.register.registers.exceptions.UsersExceptions.UserNotFoundException;
 import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
 import com.register.registers.interfaces.Response;
-import com.register.registers.services.IncomeService;
-import com.register.registers.services.ResponseService;
+import com.register.registers.services.incomes.IncomeService;
+import com.register.registers.services.utils.ResponseService;
 
 @RestController
 @RequestMapping("/income")

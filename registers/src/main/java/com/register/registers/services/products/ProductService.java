@@ -1,4 +1,4 @@
-package com.register.registers.services;
+package com.register.registers.services.products;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ import com.register.registers.entities.ProductType;
 import com.register.registers.entities.Users;
 import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
 import com.register.registers.repositories.ProductRepository;
+import com.register.registers.services.users.UserService;
 
 @Service
 public class ProductService {

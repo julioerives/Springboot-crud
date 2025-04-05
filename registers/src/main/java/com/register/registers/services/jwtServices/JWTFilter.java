@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.register.registers.constants.ErrorMessages;
-import com.register.registers.services.CookiesService;
+import com.register.registers.services.utils.CookiesService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;

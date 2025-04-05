@@ -1,4 +1,4 @@
-package com.register.registers.services;
+package com.register.registers.services.purchases;
 
 import java.util.List;
 
@@ -12,6 +12,8 @@ import com.register.registers.entities.Purchases;
 import com.register.registers.entities.Users;
 import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
 import com.register.registers.repositories.PurchasesRepositoy;
+import com.register.registers.services.products.ProductService;
+import com.register.registers.services.users.UserService;
 @Service
 public class PurchasesService {
     @Autowired

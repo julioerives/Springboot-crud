@@ -1,4 +1,4 @@
-package com.register.registers.services;
+package com.register.registers.services.incomes;
 
 import java.time.LocalDate;
 
@@ -9,6 +9,7 @@ import com.register.registers.entities.Income;
 import com.register.registers.entities.IncomeType;
 import com.register.registers.entities.Users;
 import com.register.registers.repositories.IncomeRepository;
+import com.register.registers.services.users.UserService;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

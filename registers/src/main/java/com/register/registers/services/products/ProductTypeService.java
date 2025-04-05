@@ -1,4 +1,4 @@
-package com.register.registers.services;
+package com.register.registers.services.products;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import com.register.registers.entities.ProductType;
 import com.register.registers.entities.Users;
 import com.register.registers.exceptions.producTypeExceptions.ProductTypeNotFound;
 import com.register.registers.repositories.ProductTypeRepository;
+import com.register.registers.services.users.UserService;
 @Service
 public class ProductTypeService {
     @Autowired

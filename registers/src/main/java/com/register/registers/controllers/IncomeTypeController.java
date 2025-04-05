@@ -19,8 +19,8 @@ import com.register.registers.entities.IncomeType;
 import com.register.registers.exceptions.UsersExceptions.UserNotFoundException;
 import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
 import com.register.registers.interfaces.Response;
-import com.register.registers.services.IncomeTypeService;
-import com.register.registers.services.ResponseService;
+import com.register.registers.services.incomes.IncomeTypeService;
+import com.register.registers.services.utils.ResponseService;
 
 @RestController
 @RequestMapping("/incomeType")

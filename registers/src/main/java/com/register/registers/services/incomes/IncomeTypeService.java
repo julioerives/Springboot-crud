@@ -1,4 +1,4 @@
-package com.register.registers.services;
+package com.register.registers.services.incomes;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import com.register.registers.entities.IncomeType;
 import com.register.registers.entities.Users;
 import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
 import com.register.registers.repositories.IncomeTypeRepository;
+import com.register.registers.services.users.UserService;
 
 @Service
 public class IncomeTypeService {

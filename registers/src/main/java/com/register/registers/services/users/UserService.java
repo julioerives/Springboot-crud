@@ -1,4 +1,4 @@
-package com.register.registers.services;
+package com.register.registers.services.users;
 
 import java.util.Optional;
 
@@ -12,6 +12,7 @@ import com.register.registers.exceptions.authExceptions.AuthenticationException;
 import com.register.registers.exceptions.authExceptions.EmailUsedException;
 import com.register.registers.repositories.UserRepository;
 import com.register.registers.services.jwtServices.JWTService;
+import com.register.registers.services.utils.CookiesService;
 
 import jakarta.servlet.http.HttpServletResponse;
 

@@ -14,9 +14,8 @@ import com.register.registers.entities.Users;
 import com.register.registers.exceptions.authExceptions.AuthenticationException;
 import com.register.registers.exceptions.authExceptions.EmailUsedException;
 import com.register.registers.interfaces.Response;
-import com.register.registers.services.ResponseService;
-// import com.register.registers.repositories.UserRepository;
-import com.register.registers.services.UserService;
+import com.register.registers.services.users.UserService;
+import com.register.registers.services.utils.ResponseService;
 
 import jakarta.servlet.http.HttpServletResponse;
 
