@@ -30,7 +30,7 @@ public class IncomeService {
         Income income = new Income();
         income.setIncomeType(incomeType);
         income.setQuantity(incomeRequestDTO.getQuantity());
-        income.setDescription(income.getDescription());
+        income.setDescription(incomeRequestDTO.getDescription());
         income.setUser(user);
         income.setDate(incomeRequestDTO.getDate());
         return incomeRepository.save(income);

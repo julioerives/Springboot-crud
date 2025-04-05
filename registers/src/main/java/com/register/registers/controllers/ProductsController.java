@@ -38,7 +38,7 @@ public class ProductsController {
 
         try{
             Product product = productService.addProduct(productDTO);
-            return responseService.buildSuccessResponse(product, SuccessResponse.SUCCESS_POST, HttpStatus.OK);
+            return responseService.buildSuccessResponse(product, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
         }catch(UserNotFoundException e){
             System.out.println(e.getMessage());
             return responseService.buildErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);

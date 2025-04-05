@@ -2,6 +2,8 @@ package com.register.registers.entities;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,7 +21,14 @@ public class Users {
     @Column(unique = true)
     private String email;
     @Column(name = "password_hash")
+    @JsonIgnore
     private String passwordHash; 
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created_at;
+
+    public Users() {
+    }
 
     public long getUserId() {
         return userId;
@@ -28,12 +37,6 @@ public class Users {
 
     public void setUserId(long userId) {
         this.userId = userId;
-    }
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date created_at;
-
-    public Users() {
     }
 
     public String getEmail() {

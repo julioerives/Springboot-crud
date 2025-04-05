@@ -42,7 +42,7 @@ public class AuthController {
     public ResponseEntity<Response<Users>> signIn(@RequestBody Users user,HttpServletResponse hServletResponse){
         try{
             Users userSaved = userService.singIn(user,hServletResponse);
-            return responseService.buildSuccessResponse(userSaved, SuccessResponse.SUCCESS_POST, HttpStatus.OK);
+            return responseService.buildSuccessResponse(userSaved, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
         }catch(EmailUsedException e){
             System.out.println(e.getMessage());
             return responseService.buildErrorResponse(ErrorMessages.EMAIL_USED, HttpStatus.INTERNAL_SERVER_ERROR);
