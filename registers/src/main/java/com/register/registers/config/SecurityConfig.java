@@ -27,9 +27,9 @@ public class SecurityConfig {
                 .addFilterBefore(jwtFilter,UsernamePasswordAuthenticationFilter.class)
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
-                    config.addAllowedOrigin("*");  // Permitir todos los orígenes
-                    config.addAllowedMethod("*");  // Permitir todos los métodos
-                    config.addAllowedHeader("*");  // Permitir todos los encabezados
+                    config.addAllowedOrigin("*");
+                    config.addAllowedMethod("*");
+                    config.addAllowedHeader("*");
                     return config;
                 }))
                 .build();
