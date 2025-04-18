@@ -16,7 +16,6 @@ import com.register.registers.constants.ErrorMessages;
 import com.register.registers.constants.SuccessResponse;
 import com.register.registers.dto.ProductTypeRequestDTO;
 import com.register.registers.entities.ProductType;
-import com.register.registers.exceptions.UsersExceptions.UserNotFoundException;
 import com.register.registers.interfaces.Response;
 import com.register.registers.services.products.ProductTypeService;
 import com.register.registers.services.utils.ResponseService;
@@ -28,30 +27,20 @@ public class ProductTypeController {
     private ResponseService responseService;
     @Autowired
     private ProductTypeService productTypeService;
+
     @PostMapping("")
-    public ResponseEntity<Response<ProductType>> addProductType(@RequestBody ProductTypeRequestDTO productTypeBody){
-        try{
-            ProductType productType = productTypeService.addProductType(productTypeBody);
-            return responseService.buildSuccessResponse(productType, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
-        }catch(UserNotFoundException e){
-            System.out.println(e.getMessage());
-            return responseService.buildErrorResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-            return responseService.buildErrorResponse(ErrorMessages.DEFAULT_ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<Response<ProductType>> addProductType(@RequestBody ProductTypeRequestDTO productTypeBody) {
+        ProductType productType = productTypeService.addProductType(productTypeBody);
+        return responseService.buildSuccessResponse(productType, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
     }
+
     @GetMapping("/byUser/{id_user}")
-    public ResponseEntity<Response<List<ProductType>>> getProductsTypeByUser(@PathVariable Long id_user){
-        try{
-            List<ProductType> response = productTypeService.getProductTypesUser(id_user);
-            if(response.size() < 1){
-                return responseService.buildErrorResponse(ErrorMessages.NO_DATA_FOUND,HttpStatus.NOT_FOUND);
-            }
-            return responseService.buildSuccessResponse(response,SuccessResponse.SUCCESS_GET,HttpStatus.OK);
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-            return responseService.buildErrorResponse(ErrorMessages.DEFAULT_ERROR,HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<Response<List<ProductType>>> getProductsTypeByUser(@PathVariable Long id_user) {
+        List<ProductType> response = productTypeService.getProductTypesUser(id_user);
+        if (response.size() < 1) {
+            return responseService.buildErrorResponse(ErrorMessages.NO_DATA_FOUND, HttpStatus.NOT_FOUND);
         }
+        return responseService.buildSuccessResponse(response, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
+
     }
 }

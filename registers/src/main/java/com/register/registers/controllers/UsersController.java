@@ -22,33 +22,22 @@ import com.register.registers.repositories.UserRepository;
 public class UsersController {
     @Autowired
     private UserRepository userRepository;
+
     @GetMapping()
-    public ResponseEntity<Response<List<Users>>> getUsers(){
-        try{
-            List<Users> users = userRepository.findAll();
-            Response<List<Users>> response = new Response<>(users,SuccessResponse.SUCCESS_GET,false);
-            if(users.size() <1){
-                response.setMessage(ErrorMessages.NO_DATA_FOUND);
-                return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(response, HttpStatus.OK);
-
-        }catch(Exception e){
-            Response<List<Users>> response = new Response<>(null,ErrorMessages.DEFAULT_ERROR,true);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<Response<List<Users>>> getUsers() {
+        List<Users> users = userRepository.findAll();
+        Response<List<Users>> response = new Response<>(users, SuccessResponse.SUCCESS_GET, false);
+        if (users.size() < 1) {
+            response.setMessage(ErrorMessages.NO_DATA_FOUND);
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
     @PostMapping()
-    public ResponseEntity<Response<Users>> postUser(@RequestBody Users user){
-        try{
-            Users userSaved = userRepository.save(user);
-            Response<Users> response = new Response<>(userSaved,SuccessResponse.SUCCESS_POST,false);
-            return new ResponseEntity<>(response,HttpStatus.ACCEPTED);
-        }catch(Exception e){
-            Response<Users> response = new Response<>(null,ErrorMessages.DEFAULT_ERROR,true);
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-
-        }
-
+    public ResponseEntity<Response<Users>> postUser(@RequestBody Users user) {
+        Users userSaved = userRepository.save(user);
+        Response<Users> response = new Response<>(userSaved, SuccessResponse.SUCCESS_POST, false);
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 }

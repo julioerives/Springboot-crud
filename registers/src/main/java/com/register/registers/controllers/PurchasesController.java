@@ -16,7 +16,6 @@ import com.register.registers.constants.ErrorMessages;
 import com.register.registers.constants.SuccessResponse;
 import com.register.registers.dto.PurchasesRequestDTO;
 import com.register.registers.entities.Purchases;
-import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
 import com.register.registers.interfaces.Response;
 import com.register.registers.services.purchases.PurchasesService;
 import com.register.registers.services.utils.ResponseService;
@@ -28,33 +27,21 @@ public class PurchasesController {
     private PurchasesService purchasesService;
     @Autowired
     private ResponseService responseService;
+
     @PostMapping("")
-    public ResponseEntity<Response<Purchases>> addPurchases(@RequestBody PurchasesRequestDTO pRequestDTO){
-        try{
-            Purchases purchases = purchasesService.newPurchase(pRequestDTO);
-            return responseService.buildSuccessResponse(purchases,SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
-        }catch(ResourceNotFoundException e){
-            System.out.println(e.getMessage());
-            return responseService.buildErrorResponse(e.getMessage(),HttpStatus.BAD_REQUEST);
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-            return responseService.buildErrorResponse(ErrorMessages.DEFAULT_ERROR,HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<Response<Purchases>> addPurchases(@RequestBody PurchasesRequestDTO pRequestDTO) {
+        Purchases purchases = purchasesService.newPurchase(pRequestDTO);
+        return responseService.buildSuccessResponse(purchases, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
+
     }
+
     @GetMapping("/{idUser}")
-    public ResponseEntity<Response<List<Purchases>>> getPurchases(@PathVariable Long idUser){
-        try{
-            List<Purchases> purchases = purchasesService.getPurchases(idUser);
-            if(purchases.size() < 1){
-                return responseService.buildErrorResponse(ErrorMessages.NO_DATA_FOUND, HttpStatus.NOT_FOUND);
-            }
-            return responseService.buildSuccessResponse(purchases, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
-        }catch(ResourceNotFoundException e){
-            System.out.println(e.getMessage());
-            return responseService.buildErrorResponse(e.getMessage(),HttpStatus.BAD_REQUEST);
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-            return responseService.buildErrorResponse(ErrorMessages.DEFAULT_ERROR,HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<Response<List<Purchases>>> getPurchases(@PathVariable Long idUser) {
+        List<Purchases> purchases = purchasesService.getPurchases(idUser);
+        if (purchases.size() < 1) {
+            return responseService.buildErrorResponse(ErrorMessages.NO_DATA_FOUND, HttpStatus.NOT_FOUND);
         }
+        return responseService.buildSuccessResponse(purchases, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
+
     }
 }
