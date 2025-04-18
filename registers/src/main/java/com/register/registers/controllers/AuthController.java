@@ -38,8 +38,9 @@ public class AuthController {
             return responseService.buildErrorResponse(ErrorMessages.DEFAULT_ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PostMapping("/signIn")
+    @PostMapping("/singIn")
     public ResponseEntity<Response<Users>> signIn(@RequestBody Users user,HttpServletResponse hServletResponse){
+        System.out.println(user);
         try{
             Users userSaved = userService.singIn(user,hServletResponse);
             return responseService.buildSuccessResponse(userSaved, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
