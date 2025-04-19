@@ -20,6 +20,7 @@ import com.register.registers.interfaces.Response;
 import com.register.registers.services.events.EventsService;
 import com.register.registers.services.utils.ResponseService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 
@@ -33,9 +34,10 @@ public class EventsController {
     @GetMapping("/")
     public ResponseEntity<Response<PageDTOResponse<Events>>> getIncomes(
             @RequestParam("page") int page,
-            @RequestParam("size") int size
+            @RequestParam("size") int size,
+            HttpServletRequest request
         ) {
-        Page<Events> PageResponse = this.eventsService.getAllEvents(page, size);
+        Page<Events> PageResponse = this.eventsService.getAllEvents(page, size, request);
         PageDTOResponse<Events> response = new PageDTOResponse<>(PageResponse);
         return responseService.buildSuccessResponse(response, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
     }

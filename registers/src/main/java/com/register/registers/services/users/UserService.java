@@ -50,7 +50,7 @@ public class UserService {
             System.out.println("Contraseña incorrecta");
             throw new AuthenticationException("Credenciales incorrectas");
         }
-        String token = jwtService.generateToken(user.getEmail());
+        String token = jwtService.generateToken(user.getEmail(), user.getUserId());
         cookiesService.addCookie(hServletResponse, "token", token, 10);
         return userFound.get();
     }

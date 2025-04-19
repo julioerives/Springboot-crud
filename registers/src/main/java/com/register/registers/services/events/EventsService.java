@@ -11,19 +11,34 @@ import com.register.registers.dto.EventsDTO;
 import com.register.registers.entities.Events;
 import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
 import com.register.registers.repositories.EventsRepository;
+import com.register.registers.services.jwtServices.JWTService;
+import com.register.registers.services.users.UserService;
+import com.register.registers.services.utils.CookiesService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class EventsService {
     @Autowired
     EventsRepository eventsRepository;
-    public Page<Events> getAllEvents(int page, int size) {
-        if(page < 0 || size <= 0) {
+    @Autowired
+    CookiesService cookiesService;
+    @Autowired 
+    JWTService jwtService;
+    @Autowired
+    UserService userService;
+
+    public Page<Events> getAllEvents(int page, int size, HttpServletRequest request) {
+        if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("El número de página y el tamaño deben ser mayores que cero.");
         }
-                Pageable pageable = PageRequest.of(page, size, Sort.by("date").ascending());
+        String token = cookiesService.getCookie(request, "token");
+        Long userId = jwtService.extractUserId(token);
+        userService.findUserById(userId);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("date").ascending());
 
-        Page<Events> events = this.eventsRepository.findAll(pageable);
-        if(events.isEmpty()) {
+        Page<Events> events = this.eventsRepository.findByUserUserId(userId, pageable);
+        if (events.isEmpty()) {
             throw new ResourceNotFoundException("Eventos no encontrados");
         }
         return events;

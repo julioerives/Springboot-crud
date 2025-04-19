@@ -32,6 +32,18 @@ public class JWTService {
         .signWith(getKey())
         .compact();
     }
+    public String generateToken(String name, Long userId){
+        Map<String,Object> claims =new HashMap<>();
+        claims.put("userId", userId);
+        return Jwts.builder()
+        .claims().add(claims)
+        .subject(name)
+        .issuedAt(new Date(System.currentTimeMillis()))
+        .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
+        .and()
+        .signWith(getKey())
+        .compact();
+    }
     private SecretKey getKey() {
         byte[] bytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(bytes);
@@ -66,5 +78,10 @@ public class JWTService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public Long extractUserId(String token) {
+        Claims claims = extractAllClaims(token);
+        return claims.get("userId", Long.class);
     }
 }
