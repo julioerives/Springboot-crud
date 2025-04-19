@@ -12,9 +12,9 @@ import com.register.registers.entities.Events;
 import com.register.registers.entities.Users;
 import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
 import com.register.registers.repositories.EventsRepository;
-import com.register.registers.services.auth.AuthContextService;
 import com.register.registers.services.jwtServices.JWTService;
 import com.register.registers.services.users.UserService;
+import com.register.registers.services.users.UserTokenService;
 import com.register.registers.services.utils.CookiesService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,13 +30,13 @@ public class EventsService {
     @Autowired
     UserService userService;
     @Autowired
-    AuthContextService authContextService;
+    UserTokenService userTokenService;
 
     public Page<Events> getAllEvents(int page, int size, HttpServletRequest request) {
         if (page < 0 || size <= 0) {
             throw new IllegalArgumentException("El número de página y el tamaño deben ser mayores que cero.");
         }
-        Long userId = authContextService.getCurrentUserId(request);
+        Long userId = userTokenService.getCurrentUserId(request);
         Pageable pageable = PageRequest.of(page, size, Sort.by("date").ascending());
 
         Page<Events> events = this.eventsRepository.findByUserUserId(userId, pageable);
@@ -48,7 +48,7 @@ public class EventsService {
 
     public Events addEvent(EventsDTO eventsDTO, HttpServletRequest request) {
         Events event = new Events();
-        Users user = authContextService.getCurrentUser(request);
+        Users user = userTokenService.getCurrentUser(request);
         event.setUser(user);
         event.setStartDate(eventsDTO.getStartDate());
         event.setEndDate(eventsDTO.getEndDate());
