@@ -42,8 +42,8 @@ public class EventsController {
         return responseService.buildSuccessResponse(response, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
     }
     @PostMapping("/")
-    public ResponseEntity<Response<Events>> addEvent(@Valid @RequestBody EventsDTO eventsDTO) {
-        Events event = this.eventsService.addEvent(eventsDTO);
+    public ResponseEntity<Response<Events>> addEvent(@Valid @RequestBody EventsDTO eventsDTO, HttpServletRequest request) {
+        Events event = this.eventsService.addEvent(eventsDTO, request);
         return responseService.buildSuccessResponse(event, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
     }
 }

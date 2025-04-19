@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.register.registers.dto.EventsDTO;
 import com.register.registers.entities.Events;
+import com.register.registers.entities.Users;
 import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
 import com.register.registers.repositories.EventsRepository;
 import com.register.registers.services.jwtServices.JWTService;
@@ -44,8 +45,13 @@ public class EventsService {
         return events;
     }
 
-    public Events addEvent(EventsDTO eventsDTO) {
+    public Events addEvent(EventsDTO eventsDTO, HttpServletRequest request) {
         Events event = new Events();
+        String token = cookiesService.getCookie(request, "token");
+        Long userId = jwtService.extractUserId(token);
+        userService.findUserById(userId);
+        Users user = userService.findUserById(userId);
+        event.setUser(user);
         event.setStartDate(eventsDTO.getStartDate());
         event.setEndDate(eventsDTO.getEndDate());
         event.setPhoneNotifications(eventsDTO.getPhoneNotifications());
