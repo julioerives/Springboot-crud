@@ -1,5 +1,6 @@
 package com.register.registers.services.users;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import com.register.registers.repositories.UserRepository;
 import com.register.registers.services.jwtServices.JWTService;
 import com.register.registers.services.utils.CookiesService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Service
@@ -43,7 +46,6 @@ public class UserService {
             System.out.println("Usuario no encontrado");
             throw new AuthenticationException("Credenciales incorrectas");
         }
-        System.out.println("Contraseña: " + user.getPassword_hash());
         if (!passwordEncoder.matches(user.getPassword_hash(), userFound.get().getPassword_hash())) {
             System.out.println("Contraseña incorrecta");
             throw new AuthenticationException("Credenciales incorrectas");
@@ -56,5 +58,17 @@ public class UserService {
         return userRepository.findById(id)
         .orElseThrow(()->new UserNotFoundException("Usuario no encontrado"));
     }
+
+    public Boolean isUserAuthenticated(HttpServletRequest request){
+        boolean isValid = false;
+        Cookie[] cookies = request.getCookies();
+        
+        if (cookies != null) {
+            isValid = Arrays.stream(cookies)
+                    .filter(c -> "token".equals(c.getName()))
+                    .anyMatch(c -> jwtService.validateToken(c.getValue()));
+        }
+        return isValid;
+    } 
     
 }
