@@ -1,13 +1,14 @@
 package com.register.registers.services.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.register.registers.entities.Users;
 import com.register.registers.services.jwtServices.JWTService;
 import com.register.registers.services.utils.CookiesService;
 
 import jakarta.servlet.http.HttpServletRequest;
-
+@Service
 public class UserTokenService {
     @Autowired
     CookiesService cookiesService;
