@@ -53,7 +53,7 @@ public class EventsService {
         event.setStartDate(eventsDTO.getStartDate());
         event.setEndDate(eventsDTO.getEndDate());
         event.setPhoneNotifications(eventsDTO.getPhoneNotifications());
-        event.setWebNotificacions(eventsDTO.getWebNotificacions());
+        event.setWebNotifications(eventsDTO.getWebNotifications());
         event.setMinutesAdvice(eventsDTO.getMinutesAdvice());
         return this.eventsRepository.save(event);
     }

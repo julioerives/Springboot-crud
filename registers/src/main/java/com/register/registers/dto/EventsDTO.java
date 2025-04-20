@@ -21,7 +21,7 @@ public class EventsDTO {
     @NotNull(message = "Tienes que escoger el campo de notificaciones del telefono")
     private Boolean phoneNotifications;
     @NotNull(message = "Tienes que escoger el campo de notificaciones de el sitio web")
-    private Boolean webNotificacions;
+    private Boolean webNotifications;
     @NotNull(message = "El campo de minutos del aviso es obligatorio")
     private int minutesAdvice;
 

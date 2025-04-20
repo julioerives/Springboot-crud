@@ -29,7 +29,7 @@ public class Events {
     private Users user;
     private LocalDate endDate;
     private Boolean phoneNotifications;
-    private Boolean webNotificacions;
+    private Boolean webNotifications;
     private int minutesAdvice;
     @CreationTimestamp
     @Column(updatable = false)
