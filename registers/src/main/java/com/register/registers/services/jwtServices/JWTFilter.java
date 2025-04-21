@@ -33,6 +33,7 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
         String token = cookiesService.getCookie(request, "token");
+        System.out.println(token);
         String useremail = null;
     
         try {

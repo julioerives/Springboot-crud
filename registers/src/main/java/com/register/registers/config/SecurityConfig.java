@@ -21,15 +21,16 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/auth/**").permitAll() 
-                        .anyRequest().authenticated()) 
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  
-                .addFilterBefore(jwtFilter,UsernamePasswordAuthenticationFilter.class)
+                        .requestMatchers("/auth/**").permitAll()
+                        .anyRequest().authenticated())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
-                    config.addAllowedOrigin("*");
+                    config.addAllowedOrigin("http://localhost:4200");
                     config.addAllowedMethod("*");
                     config.addAllowedHeader("*");
+                    config.setAllowCredentials(true);
                     return config;
                 }))
                 .build();
