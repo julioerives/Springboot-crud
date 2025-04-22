@@ -35,7 +35,7 @@ public class UserService {
         }
         user.setPassword_hash(passwordEncoder.encode(user.getPassword_hash()));
         Users userReturn = userRepository.save(user);
-        String token = jwtService.generateToken(user.getEmail());
+        String token = jwtService.generateToken(user.getEmail(), user.getUserId());
 
         cookiesService.addCookie(hServletResponse, "token", token, 10);
         return userReturn;
