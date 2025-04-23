@@ -48,7 +48,7 @@ public class UserService {
         if (!passwordEncoder.matches(user.getPassword_hash(), userFound.get().getPassword_hash())) {
             throw new AuthenticationException("Credenciales incorrectas");
         }
-        String token = jwtService.generateToken(user.getEmail(), user.getUserId());
+        String token = jwtService.generateToken(user.getEmail(), userFound.get().getUserId());
         cookiesService.addCookie(hServletResponse, "JWToken", token, 10);
         return userFound.get();
     }
