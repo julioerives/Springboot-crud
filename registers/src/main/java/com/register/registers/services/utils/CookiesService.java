@@ -1,8 +1,8 @@
 package com.register.registers.services.utils;
 
-import java.util.Arrays;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.WebUtils;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Service
 public class CookiesService {
     public void addCookie(HttpServletResponse response, String name, String value, int ageDays) {
+        System.out.println("AGREGAR COOKIE");
         System.out.println("addCookie: " + name + " = " + value + " ageDays: " + ageDays);
         Cookie cookie = new Cookie(name, value);
         cookie.setMaxAge(ageDays * 24 * 60 * 60);
@@ -18,25 +19,18 @@ public class CookiesService {
         cookie.setSecure(false);
         cookie.setPath("/");
         response.addCookie(cookie);
-        response.setHeader("Set-Cookie", String.format("%s=%s; Path=/; HttpOnly; SameSite=None", name, value));
     }
     public String getCookie(HttpServletRequest request, String name) {
-        Cookie[] cookies = request.getCookies();
         System.out.println(
-            getTokenFromRequest(request)
+            "OBTENER COOKIE: "
         );
-        if (cookies != null) {
-            Arrays.stream(cookies).forEach(cookie ->
-                System.out.println("Cookie Name: " + cookie.getName() + ", Value: " + cookie.getValue())
-            );
-    
-            return Arrays.stream(cookies)
-                    .filter(cookie -> cookie.getName().equals(name))
-                    .map(Cookie::getValue)
-                    .findFirst()
-                    .orElse(null);
+        System.out.println("Nombre cookie"+name);
+
+        Cookie cookie = WebUtils.getCookie(request, name);
+        System.out.println("cookie: " + cookie);
+        if (cookie != null) {
+            return cookie.getValue();
         }
-        System.out.println("No cookies found in the request.");
         return null;
     }
     public void deleteCookie(HttpServletResponse response, String name) {

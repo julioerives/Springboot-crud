@@ -37,7 +37,7 @@ public class UserService {
         Users userReturn = userRepository.save(user);
         String token = jwtService.generateToken(user.getEmail(), user.getUserId());
 
-        cookiesService.addCookie(hServletResponse, "token", token, 10);
+        cookiesService.addCookie(hServletResponse, "JWToken", token, 10);
         return userReturn;
     }
     public Users login(Users user,HttpServletResponse hServletResponse) {
@@ -51,7 +51,7 @@ public class UserService {
             throw new AuthenticationException("Credenciales incorrectas");
         }
         String token = jwtService.generateToken(user.getEmail(), user.getUserId());
-        cookiesService.addCookie(hServletResponse, "token", token, 10);
+        cookiesService.addCookie(hServletResponse, "JWToken", token, 10);
         return userFound.get();
     }
     public Users  findUserById(Long id){

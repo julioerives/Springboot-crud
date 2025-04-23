@@ -32,8 +32,7 @@ public class JWTFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        String token = cookiesService.getCookie(request, "token");
-        System.out.println(token);
+        String token = cookiesService.getCookie(request, "JWToken");
         String useremail = null;
     
         try {
