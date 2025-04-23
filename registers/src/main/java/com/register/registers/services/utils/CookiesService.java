@@ -15,11 +15,9 @@ public class CookiesService {
         Cookie cookie = new Cookie(name, value);
         cookie.setMaxAge(ageDays * 24 * 60 * 60);
         cookie.setHttpOnly(true);
-        cookie.setSecure(false); // Cambia a true en producción con HTTPS
+        cookie.setSecure(false);
         cookie.setPath("/");
         response.addCookie(cookie);
-
-        // Configura SameSite explícitamente
         response.setHeader("Set-Cookie", String.format("%s=%s; Path=/; HttpOnly; SameSite=None", name, value));
     }
     public String getCookie(HttpServletRequest request, String name) {
@@ -28,7 +26,7 @@ public class CookiesService {
             getTokenFromRequest(request)
         );
         if (cookies != null) {
-            Arrays.stream(cookies).forEach(cookie -> 
+            Arrays.stream(cookies).forEach(cookie ->
                 System.out.println("Cookie Name: " + cookie.getName() + ", Value: " + cookie.getValue())
             );
     
