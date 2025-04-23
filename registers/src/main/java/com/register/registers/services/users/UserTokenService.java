@@ -18,13 +18,13 @@ public class UserTokenService {
     JWTService jwtService;
 
     public Users getCurrentUser(HttpServletRequest request) {
-        String token = cookiesService.getCookie(request, "token");
+        String token = cookiesService.getCookie(request, "JWToken");
         Long userId = jwtService.extractUserId(token);
         return userService.findUserById(userId);
     }
 
     public Long getCurrentUserId(HttpServletRequest request) {
-        String token = cookiesService.getCookie(request, "token");
+        String token = cookiesService.getCookie(request, "JWToken");
         Long userId = jwtService.extractUserId(token);
         userService.findUserById(userId);
         return userId;
