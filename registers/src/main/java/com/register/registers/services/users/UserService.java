@@ -43,11 +43,9 @@ public class UserService {
     public Users login(Users user,HttpServletResponse hServletResponse) {
         Optional<Users> userFound = userRepository.findByEmail(user.getEmail());
         if (userFound.isEmpty()) {
-            System.out.println("Usuario no encontrado");
             throw new AuthenticationException("Credenciales incorrectas");
         }
         if (!passwordEncoder.matches(user.getPassword_hash(), userFound.get().getPassword_hash())) {
-            System.out.println("Contraseña incorrecta");
             throw new AuthenticationException("Credenciales incorrectas");
         }
         String token = jwtService.generateToken(user.getEmail(), user.getUserId());

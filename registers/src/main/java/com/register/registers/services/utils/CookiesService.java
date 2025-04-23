@@ -11,8 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 @Service
 public class CookiesService {
     public void addCookie(HttpServletResponse response, String name, String value, int ageDays) {
-        System.out.println("AGREGAR COOKIE");
-        System.out.println("addCookie: " + name + " = " + value + " ageDays: " + ageDays);
         Cookie cookie = new Cookie(name, value);
         cookie.setMaxAge(ageDays * 24 * 60 * 60);
         cookie.setHttpOnly(true);
@@ -21,13 +19,9 @@ public class CookiesService {
         response.addCookie(cookie);
     }
     public String getCookie(HttpServletRequest request, String name) {
-        System.out.println(
-            "OBTENER COOKIE: "
-        );
-        System.out.println("Nombre cookie"+name);
+
 
         Cookie cookie = WebUtils.getCookie(request, name);
-        System.out.println("cookie: " + cookie);
         if (cookie != null) {
             return cookie.getValue();
         }

@@ -37,7 +37,6 @@ public class AuthController {
 
     @PostMapping("/singIn")
     public ResponseEntity<Response<Users>> signIn(@RequestBody Users user, HttpServletResponse hServletResponse) {
-        System.out.println(user);
         Users userSaved = userService.singIn(user, hServletResponse);
         return responseService.buildSuccessResponse(userSaved, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
 
