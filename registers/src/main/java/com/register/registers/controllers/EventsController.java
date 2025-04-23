@@ -32,7 +32,7 @@ public class EventsController {
     @Autowired
     EventsService eventsService;
     @GetMapping("/")
-    public ResponseEntity<Response<PageDTOResponse<Events>>> getIncomes(
+    public ResponseEntity<Response<PageDTOResponse<Events>>> getEvents(
             @RequestParam("page") int page,
             @RequestParam("size") int size,
             HttpServletRequest request
