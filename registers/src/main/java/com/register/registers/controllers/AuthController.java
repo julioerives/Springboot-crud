@@ -31,7 +31,7 @@ public class AuthController {
     @Autowired
     private ResponseService responseService;
 
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Response<Users>> logIn(@Valid @RequestBody LoginDTO user, HttpServletResponse hServletResponse) {
         Users userFound = userService.login(user, hServletResponse);
         return responseService.buildSuccessResponse(userFound, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
