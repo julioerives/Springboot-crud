@@ -17,7 +17,7 @@ import jakarta.persistence.GenerationType;
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long userId;
+    private Long userId;
     @Column(unique = true)
     private String email;
     @Column(name = "password_hash")

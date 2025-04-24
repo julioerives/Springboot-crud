@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.register.registers.dto.EventsDTO;
@@ -37,7 +36,7 @@ public class EventsService {
             throw new IllegalArgumentException("El número de página y el tamaño deben ser mayores que cero.");
         }
         Long userId = userTokenService.getCurrentUserId(request);
-        Pageable pageable = PageRequest.of(page, size, Sort.by("date").ascending());
+        Pageable pageable = PageRequest.of(page, size);
 
         Page<Events> events = this.eventsRepository.findByUserUserId(userId, pageable);
         if (events.isEmpty()) {

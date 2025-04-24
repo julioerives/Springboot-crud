@@ -31,7 +31,7 @@ public class EventsController {
     ResponseService responseService;
     @Autowired
     EventsService eventsService;
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<Response<PageDTOResponse<Events>>> getEvents(
             @RequestParam("page") int page,
             @RequestParam("size") int size,
