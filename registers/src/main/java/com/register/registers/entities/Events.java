@@ -28,6 +28,7 @@ public class Events {
     @JsonIgnore
     private Users user;
     private LocalDate endDate;
+    private String eventName;
     private Boolean phoneNotifications;
     private Boolean webNotifications;
     private int minutesAdvice;

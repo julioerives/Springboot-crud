@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class EventsDTO {
     private Long eventId; 
+    @NotNull(message = "El nombre del evento es obligatorio")
+    @Size(min = 1, max = 50, message = "El nombre del evento debe tener entre 1 y 50 caracteres")
+    private String eventName;
     @NotNull(message = "La fecha inicio es obligatoria")
     @FutureOrPresent( message = "La fecha inicio no puede estar en el pasado")
     private LocalDate startDate;

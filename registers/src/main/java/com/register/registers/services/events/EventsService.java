@@ -50,6 +50,7 @@ public class EventsService {
         Events event = new Events();
         Users user = userTokenService.getCurrentUser(request);
         event.setUser(user);
+        event.setEventName(eventsDTO.getEventName());
         event.setStartDate(eventsDTO.getStartDate());
         event.setEndDate(eventsDTO.getEndDate());
         event.setPhoneNotifications(eventsDTO.getPhoneNotifications());
