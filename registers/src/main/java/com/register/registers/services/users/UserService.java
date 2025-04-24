@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.register.registers.dto.LoginDTO;
 import com.register.registers.entities.Users;
 import com.register.registers.exceptions.UsersExceptions.UserNotFoundException;
 import com.register.registers.exceptions.authExceptions.AuthenticationException;
@@ -28,19 +29,22 @@ public class UserService {
     @Autowired
     private CookiesService cookiesService;
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
-    public Users singIn(Users user,HttpServletResponse hServletResponse){
+    public Users singIn(LoginDTO user,HttpServletResponse hServletResponse){
         Optional<Users> userFound = userRepository.findByEmail(user.getEmail());
         if (userFound.isPresent()) {
             throw new EmailUsedException("Correo en uso");
         }
         user.setPassword_hash(passwordEncoder.encode(user.getPassword_hash()));
-        Users userReturn = userRepository.save(user);
-        String token = jwtService.generateToken(user.getEmail(), user.getUserId());
+        Users userReturn = new Users();
+        userReturn.setEmail(user.getEmail());
+        userReturn.setPassword_hash(user.getPassword_hash());
+        Users userInserted = userRepository.save(userReturn);
+        String token = jwtService.generateToken(userInserted.getEmail(), userInserted.getUserId());
 
         cookiesService.addCookie(hServletResponse, "JWToken", token, 10);
         return userReturn;
     }
-    public Users login(Users user,HttpServletResponse hServletResponse) {
+    public Users login(LoginDTO user,HttpServletResponse hServletResponse) {
         Optional<Users> userFound = userRepository.findByEmail(user.getEmail());
         if (userFound.isEmpty()) {
             throw new AuthenticationException("Credenciales incorrectas");
