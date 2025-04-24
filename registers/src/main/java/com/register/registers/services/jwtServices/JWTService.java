@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
@@ -17,7 +18,8 @@ import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JWTService {
-    private String secretKey = "";
+    @Value("${JWT_SECRET}")
+    private String secretKey;
     public JWTService(){
         generateSecretKey();
     }
