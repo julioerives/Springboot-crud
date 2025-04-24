@@ -29,7 +29,8 @@ public class UserService {
     @Autowired
     private CookiesService cookiesService;
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
-    public Users singIn(LoginDTO user,HttpServletResponse hServletResponse){
+
+    public Users singIn(LoginDTO user, HttpServletResponse hServletResponse) {
         Optional<Users> userFound = userRepository.findByEmail(user.getEmail());
         if (userFound.isPresent()) {
             throw new EmailUsedException("Correo en uso");
@@ -44,7 +45,8 @@ public class UserService {
         cookiesService.addCookie(hServletResponse, "JWToken", token, 10);
         return userReturn;
     }
-    public Users login(LoginDTO user,HttpServletResponse hServletResponse) {
+
+    public Users login(LoginDTO user, HttpServletResponse hServletResponse) {
         Optional<Users> userFound = userRepository.findByEmail(user.getEmail());
         if (userFound.isEmpty()) {
             throw new AuthenticationException("Credenciales incorrectas");
@@ -56,21 +58,22 @@ public class UserService {
         cookiesService.addCookie(hServletResponse, "JWToken", token, 10);
         return userFound.get();
     }
-    public Users  findUserById(Long id){
+
+    public Users findUserById(Long id) {
         return userRepository.findById(id)
-        .orElseThrow(()->new UserNotFoundException("Usuario no encontrado"));
+                .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
     }
 
-    public Boolean isUserAuthenticated(HttpServletRequest request){
+    public Boolean isUserAuthenticated(HttpServletRequest request) {
         boolean isValid = false;
         Cookie[] cookies = request.getCookies();
-        
+
         if (cookies != null) {
             isValid = Arrays.stream(cookies)
-                    .filter(c -> "token".equals(c.getName()))
+                    .filter(c -> "JWToken".equals(c.getName()))
                     .anyMatch(c -> jwtService.validateToken(c.getValue()));
         }
         return isValid;
-    } 
-    
+    }
+
 }
