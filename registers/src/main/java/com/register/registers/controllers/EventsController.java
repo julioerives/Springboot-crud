@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,4 +47,10 @@ public class EventsController {
         Events event = this.eventsService.addEvent(eventsDTO, request);
         return responseService.buildSuccessResponse(event, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
     }
+    @DeleteMapping("/{eventId}")
+    public ResponseEntity<Response<Object>> deleteEvent(@RequestParam("eventId") Long eventId, HttpServletRequest request) {
+        this.eventsService.deleteEvent(eventId, request);
+        return responseService.buildSuccessResponse(null, SuccessResponse.SUCCESS_DELETE, HttpStatus.OK);
+    }
+
 }

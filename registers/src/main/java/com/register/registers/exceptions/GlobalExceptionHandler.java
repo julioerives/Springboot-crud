@@ -15,6 +15,7 @@ import com.register.registers.exceptions.UsersExceptions.UserNotFoundException;
 import com.register.registers.exceptions.authExceptions.EmailUsedException;
 import com.register.registers.exceptions.authExceptions.AuthenticationException;
 import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
+import com.register.registers.exceptions.defaultExceptions.UnauthorizedActionException;
 import com.register.registers.exceptions.producTypeExceptions.ProductTypeNotFound;
 import com.register.registers.interfaces.Response;
 import com.register.registers.services.utils.ResponseService;
@@ -49,9 +50,14 @@ public class GlobalExceptionHandler {
 
     }
     @ExceptionHandler(Exception.class)
-    ResponseEntity<Response<Object>> handleDefaultException(Exception ex, WebRequest request){
+    public ResponseEntity<Response<Object>> handleDefaultException(Exception ex, WebRequest request){
         System.out.println(ex.getMessage());
         return responseService.buildErrorResponse(ErrorMessages.DEFAULT_ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @ExceptionHandler(UnauthorizedActionException.class)
+    public ResponseEntity<Response<Object>> handleUnauthorizedActionException(UnauthorizedActionException ex, WebRequest request) {
+        System.out.println(ex.getMessage());
+        return responseService.buildErrorResponse(ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 
 

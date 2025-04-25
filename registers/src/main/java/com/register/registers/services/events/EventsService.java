@@ -10,6 +10,7 @@ import com.register.registers.dto.EventsDTO;
 import com.register.registers.entities.Events;
 import com.register.registers.entities.Users;
 import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
+import com.register.registers.exceptions.defaultExceptions.UnauthorizedActionException;
 import com.register.registers.repositories.EventsRepository;
 import com.register.registers.services.jwtServices.JWTService;
 import com.register.registers.services.users.UserService;
@@ -56,5 +57,14 @@ public class EventsService {
         event.setWebNotifications(eventsDTO.getWebNotifications());
         event.setMinutesAdvice(eventsDTO.getMinutesAdvice());
         return this.eventsRepository.save(event);
+    }
+
+    public void deleteEvent(Long eventId, HttpServletRequest request) {
+        Long userId = userTokenService.getCurrentUserId(request);
+        Events event = this.eventsRepository.findById(eventId).orElseThrow(() -> new ResourceNotFoundException("Evento no encontrado"));
+        if (event.getUser().getUserId() != userId) {
+            throw new UnauthorizedActionException("No tienes permiso para eliminar este evento");
+        }
+        this.eventsRepository.delete(event);
     }
 }
