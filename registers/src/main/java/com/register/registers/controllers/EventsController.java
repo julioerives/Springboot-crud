@@ -50,7 +50,6 @@ public class EventsController {
     }
     @DeleteMapping("/{eventId}")
     public ResponseEntity<Response<Object>> deleteEvent(@PathVariable("eventId") Long eventId, HttpServletRequest request) {
-        System.out.println(eventId);
         this.eventsService.deleteEvent(eventId, request);
         return responseService.buildSuccessResponse(null, SuccessResponse.SUCCESS_DELETE, HttpStatus.OK);
     }
