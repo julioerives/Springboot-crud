@@ -1,6 +1,5 @@
 package com.register.registers.entities;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -22,12 +21,12 @@ public class Events {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long eventId; 
-    private LocalDate startDate;
+    private LocalDateTime startDate;
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private Users user;
-    private LocalDate endDate;
+    private LocalDateTime endDate;
     private String eventName;
     private Boolean phoneNotifications;
     private Boolean webNotifications;
