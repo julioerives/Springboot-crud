@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,6 +53,11 @@ public class EventsController {
     public ResponseEntity<Response<Object>> deleteEvent(@PathVariable("eventId") Long eventId, HttpServletRequest request) {
         this.eventsService.deleteEvent(eventId, request);
         return responseService.buildSuccessResponse(null, SuccessResponse.SUCCESS_DELETE, HttpStatus.OK);
+    }
+    @PutMapping("/{eventId}")
+    public ResponseEntity<Response<Events>> updateEvent(@PathVariable("eventId") Long eventId, @Valid @RequestBody EventsDTO eventsDTO, HttpServletRequest request) {
+        Events event = this.eventsService.updateEvent(eventId, eventsDTO, request);
+        return responseService.buildSuccessResponse(event, SuccessResponse.SUCCESS_PUT, HttpStatus.OK);
     }
 
 }

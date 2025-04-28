@@ -67,4 +67,19 @@ public class EventsService {
         }
         this.eventsRepository.delete(event);
     }
+
+    public Events updateEvent(Long eventId, EventsDTO eventsDTO, HttpServletRequest request) {
+        Long userId = userTokenService.getCurrentUserId(request);
+        Events event = this.eventsRepository.findById(eventId).orElseThrow(() -> new ResourceNotFoundException("Evento no encontrado"));
+        if (event.getUser().getUserId() != userId) {
+            throw new UnauthorizedActionException("No tienes permiso para actualizar este evento");
+        }
+        event.setEventName(eventsDTO.getEventName());
+        event.setStartDate(eventsDTO.getStartDate());
+        event.setEndDate(eventsDTO.getEndDate());
+        event.setPhoneNotifications(eventsDTO.getPhoneNotifications());
+        event.setWebNotifications(eventsDTO.getWebNotifications());
+        event.setMinutesAdvice(eventsDTO.getMinutesAdvice());
+        return this.eventsRepository.save(event);
+    }
 }
