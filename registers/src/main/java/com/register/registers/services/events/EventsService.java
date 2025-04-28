@@ -1,5 +1,6 @@
 package com.register.registers.services.events;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +86,7 @@ public class EventsService {
         return this.eventsRepository.save(event);
     }
 
-    public List<Events> getEventsByDates (String startDate, String endDate, HttpServletRequest request) {
+    public List<Events> getEventsByDates (LocalDateTime startDate, LocalDateTime endDate, HttpServletRequest request) {
         Long userId = userTokenService.getCurrentUserId(request);
         List<Events> event = this.eventsRepository.findByUserUserIdAndStartDateAndEndDate(userId, startDate, endDate);
         if (event.isEmpty()) {

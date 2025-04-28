@@ -1,10 +1,12 @@
 package com.register.registers.controllers;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -64,8 +66,8 @@ public class EventsController {
 
     @GetMapping("/byDates")
     public ResponseEntity<Response<List<Events>>> getEventsByDates(
-            @RequestParam("startDate") String startDate,
-            @RequestParam("endDate") String endDate,
+@RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+        @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
             HttpServletRequest request
         ) {
         List<Events> response = this.eventsService.getEventsByDates(startDate, endDate, request);
