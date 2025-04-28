@@ -1,6 +1,8 @@
 package com.register.registers.controllers;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -59,5 +61,15 @@ public class EventsController {
         Events event = this.eventsService.updateEvent(eventId, eventsDTO, request);
         return responseService.buildSuccessResponse(event, SuccessResponse.SUCCESS_PUT, HttpStatus.OK);
     }
+
+    @GetMapping("/byDates")
+    public ResponseEntity<Response<List<Events>>> getEventsByDates(
+            @RequestParam("startDate") String startDate,
+            @RequestParam("endDate") String endDate,
+            HttpServletRequest request
+        ) {
+        List<Events> response = this.eventsService.getEventsByDates(startDate, endDate, request);
+        return responseService.buildSuccessResponse(response, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
+        }
 
 }

@@ -1,5 +1,7 @@
 package com.register.registers.services.events;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -81,5 +83,14 @@ public class EventsService {
         event.setWebNotifications(eventsDTO.getWebNotifications());
         event.setMinutesAdvice(eventsDTO.getMinutesAdvice());
         return this.eventsRepository.save(event);
+    }
+
+    public List<Events> getEventsByDates (String startDate, String endDate, HttpServletRequest request) {
+        Long userId = userTokenService.getCurrentUserId(request);
+        List<Events> event = this.eventsRepository.findByUserUserIdAndStartDateAndEndDate(userId, startDate, endDate);
+        if (event.isEmpty()) {
+            throw new ResourceNotFoundException("Eventos no encontrados");
+        }
+        return event;
     }
 }
