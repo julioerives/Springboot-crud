@@ -13,5 +13,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface EventsRepository extends JpaRepository<Events, Long> {
     Page<Events> findByUserUserId(Long userId, Pageable pageable);  
-    List<Events> findByUserUserIdAndStartDateAndEndDate(Long userId, LocalDateTime startDate, LocalDateTime endDate);
+    List<Events> findByUserUserIdAndStartDateBetween(Long userId, LocalDateTime startDate, LocalDateTime endDate);
+
 }

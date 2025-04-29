@@ -88,7 +88,7 @@ public class EventsService {
 
     public List<Events> getEventsByDates (LocalDateTime startDate, LocalDateTime endDate, HttpServletRequest request) {
         Long userId = userTokenService.getCurrentUserId(request);
-        List<Events> event = this.eventsRepository.findByUserUserIdAndStartDateAndEndDate(userId, startDate, endDate);
+        List<Events> event = this.eventsRepository.findByUserUserIdAndStartDateBetween(userId, startDate, endDate);
         if (event.isEmpty()) {
             throw new ResourceNotFoundException("Eventos no encontrados");
         }
