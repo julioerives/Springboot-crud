@@ -15,12 +15,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
+
 @Entity
 @Data
 public class Events {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long eventId; 
+    private Long eventId;
     private LocalDateTime startDate;
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -37,5 +38,4 @@ public class Events {
     @UpdateTimestamp
     private LocalDateTime updateAt;
 
-    
 }

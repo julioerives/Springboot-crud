@@ -1,6 +1,5 @@
 package com.register.registers.controllers;
 
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,7 +29,6 @@ import com.register.registers.services.utils.ResponseService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
-
 @RestController
 @RequestMapping("/events")
 public class EventsController {
@@ -38,40 +36,45 @@ public class EventsController {
     ResponseService responseService;
     @Autowired
     EventsService eventsService;
+
     @GetMapping("")
     public ResponseEntity<Response<PageDTOResponse<Events>>> getEvents(
             @RequestParam("page") int page,
             @RequestParam("size") int size,
-            HttpServletRequest request
-        ) {
+            HttpServletRequest request) {
         Page<Events> PageResponse = this.eventsService.getAllEvents(page, size, request);
         PageDTOResponse<Events> response = new PageDTOResponse<>(PageResponse);
         return responseService.buildSuccessResponse(response, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
     }
+
     @PostMapping("")
-    public ResponseEntity<Response<Events>> addEvent(@Valid @RequestBody EventsDTO eventsDTO, HttpServletRequest request) {
+    public ResponseEntity<Response<Events>> addEvent(@Valid @RequestBody EventsDTO eventsDTO,
+            HttpServletRequest request) {
         Events event = this.eventsService.addEvent(eventsDTO, request);
         return responseService.buildSuccessResponse(event, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
     }
+
     @DeleteMapping("/{eventId}")
-    public ResponseEntity<Response<Object>> deleteEvent(@PathVariable("eventId") Long eventId, HttpServletRequest request) {
+    public ResponseEntity<Response<Object>> deleteEvent(@PathVariable("eventId") Long eventId,
+            HttpServletRequest request) {
         this.eventsService.deleteEvent(eventId, request);
         return responseService.buildSuccessResponse(null, SuccessResponse.SUCCESS_DELETE, HttpStatus.OK);
     }
+
     @PutMapping("/{eventId}")
-    public ResponseEntity<Response<Events>> updateEvent(@PathVariable("eventId") Long eventId, @Valid @RequestBody EventsDTO eventsDTO, HttpServletRequest request) {
+    public ResponseEntity<Response<Events>> updateEvent(@PathVariable("eventId") Long eventId,
+            @Valid @RequestBody EventsDTO eventsDTO, HttpServletRequest request) {
         Events event = this.eventsService.updateEvent(eventId, eventsDTO, request);
         return responseService.buildSuccessResponse(event, SuccessResponse.SUCCESS_PUT, HttpStatus.OK);
     }
 
     @GetMapping("/byDates")
     public ResponseEntity<Response<List<Events>>> getEventsByDates(
-@RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-        @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
-            HttpServletRequest request
-        ) {
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+            HttpServletRequest request) {
         List<Events> response = this.eventsService.getEventsByDates(startDate, endDate, request);
         return responseService.buildSuccessResponse(response, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
-        }
+    }
 
 }

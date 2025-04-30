@@ -1,6 +1,5 @@
 package com.register.registers.services.utils;
 
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.WebUtils;
 
@@ -18,8 +17,8 @@ public class CookiesService {
         cookie.setPath("/");
         response.addCookie(cookie);
     }
-    public String getCookie(HttpServletRequest request, String name) {
 
+    public String getCookie(HttpServletRequest request, String name) {
 
         Cookie cookie = WebUtils.getCookie(request, name);
         if (cookie != null) {
@@ -27,6 +26,7 @@ public class CookiesService {
         }
         return null;
     }
+
     public void deleteCookie(HttpServletResponse response, String name) {
         Cookie cookie = new Cookie(name, null);
         cookie.setMaxAge(0);
@@ -35,6 +35,7 @@ public class CookiesService {
         cookie.setPath("/");
         response.addCookie(cookie);
     }
+
     public String getTokenFromRequest(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
