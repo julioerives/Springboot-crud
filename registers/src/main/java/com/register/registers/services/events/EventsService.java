@@ -49,6 +49,12 @@ public class EventsService {
         return events;
     }
 
+    public Events findEventById(Long eventId) {
+        Events event = this.eventsRepository.findById(eventId)
+        .orElseThrow(() -> new ResourceNotFoundException("Evento no encontrado"));
+        return event;
+    }
+
     public Events addEvent(EventsDTO eventsDTO, HttpServletRequest request) {
         Events event = new Events();
         Users user = userTokenService.getCurrentUser(request);
@@ -64,8 +70,7 @@ public class EventsService {
 
     public void deleteEvent(Long eventId, HttpServletRequest request) {
         Long userId = userTokenService.getCurrentUserId(request);
-        Events event = this.eventsRepository.findById(eventId)
-                .orElseThrow(() -> new ResourceNotFoundException("Evento no encontrado"));
+        Events event = findEventById(eventId);
         if (event.getUser().getUserId() != userId) {
             throw new UnauthorizedActionException("No tienes permiso para eliminar este evento");
         }
@@ -74,8 +79,7 @@ public class EventsService {
 
     public Events updateEvent(Long eventId, EventsDTO eventsDTO, HttpServletRequest request) {
         Long userId = userTokenService.getCurrentUserId(request);
-        Events event = this.eventsRepository.findById(eventId)
-                .orElseThrow(() -> new ResourceNotFoundException("Evento no encontrado"));
+        Events event = findEventById(eventId);
         if (event.getUser().getUserId() != userId) {
             throw new UnauthorizedActionException("No tienes permiso para actualizar este evento");
         }
