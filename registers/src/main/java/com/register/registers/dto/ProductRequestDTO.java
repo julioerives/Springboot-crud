@@ -11,4 +11,5 @@ public class ProductRequestDTO {
     private Long userId;
     private Long typeProductId;
     private String name;
+    private Float price;
 }

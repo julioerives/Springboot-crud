@@ -28,6 +28,7 @@ public class ProductService {
                 productDTO.getUserId());
         Product product = new Product();
         product.setName(productDTO.getName());
+        product.setPrice(productDTO.getPrice());
         product.setProductType(productType);
         product.setUser(user);
         return productRepository.save(product);
