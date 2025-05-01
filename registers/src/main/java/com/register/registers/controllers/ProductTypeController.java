@@ -20,6 +20,8 @@ import com.register.registers.interfaces.Response;
 import com.register.registers.services.products.ProductTypeService;
 import com.register.registers.services.utils.ResponseService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/type_products")
 public class ProductTypeController {
@@ -29,8 +31,8 @@ public class ProductTypeController {
     private ProductTypeService productTypeService;
 
     @PostMapping("")
-    public ResponseEntity<Response<ProductType>> addProductType(@RequestBody ProductTypeRequestDTO productTypeBody) {
-        ProductType productType = productTypeService.addProductType(productTypeBody);
+    public ResponseEntity<Response<ProductType>> addProductType(@RequestBody ProductTypeRequestDTO productTypeBody, HttpServletRequest request) {
+        ProductType productType = productTypeService.addProductType(productTypeBody, request);
         return responseService.buildSuccessResponse(productType, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
     }
 

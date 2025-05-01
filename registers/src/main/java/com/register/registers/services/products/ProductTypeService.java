@@ -10,18 +10,22 @@ import com.register.registers.entities.ProductType;
 import com.register.registers.entities.Users;
 import com.register.registers.exceptions.producTypeExceptions.ProductTypeNotFound;
 import com.register.registers.repositories.ProductTypeRepository;
-import com.register.registers.services.users.UserService;
+import com.register.registers.services.users.UserTokenService;
+
+import jakarta.servlet.http.HttpServletRequest;
 @Service
 public class ProductTypeService {
     @Autowired
     private ProductTypeRepository productTypeRepository;
-    @Autowired 
-    private UserService userService;
+
+    @Autowired
+    UserTokenService userTokenService;
+
     public List<ProductType> getProductType() {
         return productTypeRepository.findAll();
     }
-    public ProductType addProductType(ProductTypeRequestDTO productTypeDTO) {
-        Users user = userService.findUserById(productTypeDTO.getUserId());
+    public ProductType addProductType(ProductTypeRequestDTO productTypeDTO, HttpServletRequest request) {
+        Users user = userTokenService.getCurrentUser(request);
         ProductType productType = new ProductType();
         productType.setUser(user);
         productType.setName(productTypeDTO.getName());
