@@ -12,6 +12,9 @@ import com.register.registers.entities.Users;
 import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
 import com.register.registers.repositories.ProductRepository;
 import com.register.registers.services.users.UserService;
+import com.register.registers.services.users.UserTokenService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class ProductService {
@@ -21,11 +24,13 @@ public class ProductService {
     ProductTypeService productTypeService;
     @Autowired
     UserService userService;
+    @Autowired
+    UserTokenService userTokenService;
 
-    public Product addProduct(ProductRequestDTO productDTO) {
-        Users user = userService.findUserById(productDTO.getUserId());
+    public Product addProduct(ProductRequestDTO productDTO, HttpServletRequest request) {
+        Users user = userTokenService.getCurrentUser(request);
         ProductType productType = productTypeService.getProductTypeByIdAndUser(productDTO.getTypeProductId(),
-                productDTO.getUserId());
+                user.getUserId());
         Product product = new Product();
         product.setName(productDTO.getName());
         product.setPrice(productDTO.getPrice());
