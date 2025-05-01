@@ -44,6 +44,12 @@ public class ProductService {
         return productRepository.findByUserUserId(userId);
     }
 
+    public List<Product> getProductsByUser(HttpServletRequest request) {
+        Long id_user = userTokenService.getCurrentUserId(request);
+        userService.findUserById(id_user);
+        return productRepository.findByUserUserId(id_user);
+    }
+
     public Product getProducyById(Long productId) {
         return productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado."));
