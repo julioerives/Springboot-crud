@@ -31,10 +31,6 @@ public class ProductsController {
 
     @PostMapping("")
     public ResponseEntity<Response<Product>> addProduct(@RequestBody ProductRequestDTO productDTO) {
-        if (productDTO.getUserId() == null || productDTO.getTypeProductId() == null || productDTO.getName() == null) {
-            return responseService.buildErrorResponse("Missing required fields", HttpStatus.BAD_REQUEST);
-        }
-
         Product product = productService.addProduct(productDTO);
         return responseService.buildSuccessResponse(product, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
     }
