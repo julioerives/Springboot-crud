@@ -36,8 +36,8 @@ public class ProductTypeController {
         return responseService.buildSuccessResponse(productType, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
     }
 
-    @GetMapping("/byUser/{id_user}")
-    public ResponseEntity<Response<List<ProductType>>> getProductsTypeByUser(@PathVariable Long id_user) {
+    @GetMapping("/byUser")
+    public ResponseEntity<Response<List<ProductType>>> getProductsTypeByUser(@PathVariable Long id_user, HttpServletRequest request) {
         List<ProductType> response = productTypeService.getProductTypesUser(id_user);
         if (response.size() < 1) {
             return responseService.buildErrorResponse(ErrorMessages.NO_DATA_FOUND, HttpStatus.NOT_FOUND);

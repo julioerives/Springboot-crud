@@ -36,6 +36,11 @@ public class ProductTypeService {
     public List<ProductType> getProductTypesUser(Long id_user) {
         return productTypeRepository.findByUserUserId(id_user);
     }
+    public List<ProductType> getProductTypesUser(HttpServletRequest request) {
+        Long id_user = userTokenService.getCurrentUserId(request);
+
+        return productTypeRepository.findByUserUserId(id_user);
+    }
     public ProductType getProductTypeByIdAndUser(Long productTypeId,Long id_user) {
         return productTypeRepository.findByProductTypeIdAndUserUserId(productTypeId,id_user).orElseThrow(()-> new ProductTypeNotFound("Tipo de producto no encontrado."));
     }
