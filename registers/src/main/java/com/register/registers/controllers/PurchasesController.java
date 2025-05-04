@@ -20,6 +20,8 @@ import com.register.registers.interfaces.Response;
 import com.register.registers.services.purchases.PurchasesService;
 import com.register.registers.services.utils.ResponseService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @RequestMapping("/purchases")
 @RestController
 public class PurchasesController {
@@ -29,8 +31,8 @@ public class PurchasesController {
     private ResponseService responseService;
 
     @PostMapping("")
-    public ResponseEntity<Response<Purchases>> addPurchases(@RequestBody PurchasesRequestDTO pRequestDTO) {
-        Purchases purchases = purchasesService.newPurchase(pRequestDTO);
+    public ResponseEntity<Response<List<Purchases>>> addPurchases(@RequestBody PurchasesRequestDTO pRequestDTO, HttpServletRequest request) {
+        List<Purchases> purchases = purchasesService.newPurchase(pRequestDTO, request);
         return responseService.buildSuccessResponse(purchases, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
 
     }

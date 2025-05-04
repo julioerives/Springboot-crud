@@ -1,5 +1,6 @@
 package com.register.registers.services.products;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +54,13 @@ public class ProductService {
     public Product getProducyById(Long productId) {
         return productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Producto no encontrado."));
+    }
+
+    public List<Product> findAllByIdIn(Collection<Long> ids){
+        List<Product> products = this.productRepository.findAllByIdIn(ids);
+        if(products.isEmpty()){
+            throw new ResourceNotFoundException("Productos no existen");
+        }
+        return products;
     }
 }
