@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.register.registers.constants.ErrorMessages;
-import com.register.registers.dto.PurchasesRequestDTO;
-import com.register.registers.dto.PurchasesRequestDTO.PurchaseItemDTO;
+import com.register.registers.dto.MultiplePurchasesRequestDTO;
+import com.register.registers.dto.PurchaseRequestDTO;
 import com.register.registers.entities.Product;
 import com.register.registers.entities.Purchases;
 import com.register.registers.entities.Users;
@@ -33,11 +33,22 @@ public class PurchasesService {
     @Autowired
     UserTokenService userTokenService;
 
-    public List<Purchases> newPurchase(PurchasesRequestDTO pDto, HttpServletRequest request) {
+    public Purchases addPurchases(PurchaseRequestDTO purchaseRequestDTO,  HttpServletRequest request){
+        Users user = userTokenService.getCurrentUser(request);
+        Product product = productService.getProducyById(purchaseRequestDTO.getProductId());
+        Purchases purchase = new Purchases();
+        purchase.setUser(user);
+        purchase.setProduct(product);
+        purchase.setQuantity(purchaseRequestDTO.getQuantity());
+        purchase.setPrice(purchaseRequestDTO.getPrice());
+        return purchase;
+    }
+
+    public List<Purchases> addMultiplePurchase(MultiplePurchasesRequestDTO pDto, HttpServletRequest request) {
         Long userId = userTokenService.getCurrentUserId(request);
         Users user = this.userService.findUserById(userId);
         Set<Long> productIds = pDto.getItems().stream()
-        .map(PurchaseItemDTO::getProductId)
+        .map(PurchaseRequestDTO::getProductId)
         .collect(Collectors.toSet());
         Map<Long, Product> productsMap = productService.findAllByIdIn(productIds)
         .stream()
