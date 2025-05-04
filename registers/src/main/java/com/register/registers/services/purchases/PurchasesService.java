@@ -25,7 +25,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @Service
 public class PurchasesService {
     @Autowired
-    private PurchasesRepositoy purchasesRepositoy;
+    private PurchasesRepositoy purchasesRepository;
     @Autowired
     private ProductService productService;
     @Autowired
@@ -53,11 +53,11 @@ public class PurchasesService {
         })
         .collect(Collectors.toList());
 
-    return purchasesRepositoy.saveAll(purchasesList);
+    return purchasesRepository.saveAll(purchasesList);
     }
     public List<Purchases> getPurchases(Long userId){
         userService.findUserById(userId);
-        return purchasesRepositoy.findByUserUserId(userId).orElseThrow(()-> new ResourceNotFoundException(ErrorMessages.NO_DATA_FOUND));
+        return purchasesRepository.findByUserUserId(userId).orElseThrow(()-> new ResourceNotFoundException(ErrorMessages.NO_DATA_FOUND));
         
     }
 }
