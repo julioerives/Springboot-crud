@@ -20,6 +20,7 @@ import com.register.registers.services.products.ProductService;
 import com.register.registers.services.utils.ResponseService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/products")
@@ -31,7 +32,7 @@ public class ProductsController {
     private ProductService productService;
 
     @PostMapping("")
-    public ResponseEntity<Response<Product>> addProduct(@RequestBody ProductRequestDTO productDTO, HttpServletRequest request) {
+    public ResponseEntity<Response<Product>> addProduct(@RequestBody @Valid ProductRequestDTO productDTO, HttpServletRequest request) {
         Product product = productService.addProduct(productDTO, request);
         return responseService.buildSuccessResponse(product, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
     }
