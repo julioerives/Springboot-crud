@@ -66,9 +66,10 @@ public class PurchasesService {
 
     return purchasesRepository.saveAll(purchasesList);
     }
-    public List<Purchases> getPurchases(Long userId){
+    public List<Purchases> getPurchases(HttpServletRequest request){
+        Long userId = userTokenService.getCurrentUserId(request);
         userService.findUserById(userId);
-        return purchasesRepository.findByUserUserId(userId).orElseThrow(()-> new ResourceNotFoundException(ErrorMessages.NO_DATA_FOUND));
-        
+        List<Purchases> purchases = purchasesRepository.findByUserUserId(userId).orElseThrow(()-> new ResourceNotFoundException(ErrorMessages.NO_DATA_FOUND));
+        return purchases;
     }
 }
