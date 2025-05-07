@@ -45,8 +45,7 @@ public class PurchasesService {
     }
 
     public List<Purchases> addMultiplePurchase(MultiplePurchasesRequestDTO pDto, HttpServletRequest request) {
-        Long userId = userTokenService.getCurrentUserId(request);
-        Users user = this.userService.findUserById(userId);
+        Users user = userTokenService.getCurrentUser(request);
         Set<Long> productIds = pDto.getItems().stream()
         .map(PurchaseRequestDTO::getProductId)
         .collect(Collectors.toSet());
