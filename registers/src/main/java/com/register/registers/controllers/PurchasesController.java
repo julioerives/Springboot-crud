@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.register.registers.constants.SuccessResponse;
@@ -31,20 +32,29 @@ public class PurchasesController {
     private ResponseService responseService;
 
     @PostMapping("")
-    public ResponseEntity<Response<Purchases>> addPurchases(@RequestBody PurchaseRequestDTO pRequestDTO, HttpServletRequest request) {
+    public ResponseEntity<Response<Purchases>> addPurchases(@RequestBody PurchaseRequestDTO pRequestDTO,
+            HttpServletRequest request) {
         Purchases purchases = purchasesService.addPurchases(pRequestDTO, request);
         return responseService.buildSuccessResponse(purchases, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
 
     }
+
     @PostMapping("/multiple")
-    public ResponseEntity<Response<List<Purchases>>> addMultiplePurchases(@RequestBody @Valid MultiplePurchasesRequestDTO pRequestDTO, HttpServletRequest request) {
+    public ResponseEntity<Response<List<Purchases>>> addMultiplePurchases(
+            @RequestBody @Valid MultiplePurchasesRequestDTO pRequestDTO, HttpServletRequest request) {
         List<Purchases> purchases = purchasesService.addMultiplePurchase(pRequestDTO, request);
         return responseService.buildSuccessResponse(purchases, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
 
     }
 
     @GetMapping("")
-    public ResponseEntity<Response<List<Purchases>>> getPurchases(HttpServletRequest request) {
+    public ResponseEntity<Response<List<Purchases>>> getPurchases(
+            @RequestParam("sort") String sort,
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam("name") String name,
+            @RequestParam("searchBy") String searchBy,
+            HttpServletRequest request) {
         List<Purchases> purchases = purchasesService.getPurchases(request);
         return responseService.buildSuccessResponse(purchases, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
 
