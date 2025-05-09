@@ -20,6 +20,7 @@ import com.register.registers.services.purchases.PurchasesService;
 import com.register.registers.services.utils.ResponseService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 @RequestMapping("/purchases")
 @RestController
@@ -36,7 +37,7 @@ public class PurchasesController {
 
     }
     @PostMapping("/multiple")
-    public ResponseEntity<Response<List<Purchases>>> addMultiplePurchases(@RequestBody MultiplePurchasesRequestDTO pRequestDTO, HttpServletRequest request) {
+    public ResponseEntity<Response<List<Purchases>>> addMultiplePurchases(@RequestBody @Valid MultiplePurchasesRequestDTO pRequestDTO, HttpServletRequest request) {
         List<Purchases> purchases = purchasesService.addMultiplePurchase(pRequestDTO, request);
         return responseService.buildSuccessResponse(purchases, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
 
