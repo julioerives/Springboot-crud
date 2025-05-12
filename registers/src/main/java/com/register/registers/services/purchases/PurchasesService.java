@@ -16,7 +16,7 @@ import com.register.registers.entities.Product;
 import com.register.registers.entities.Purchases;
 import com.register.registers.entities.Users;
 import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
-import com.register.registers.repositories.PurchasesRepositoy;
+import com.register.registers.repositories.PurchasesRepository;
 import com.register.registers.services.products.ProductService;
 import com.register.registers.services.users.UserService;
 import com.register.registers.services.users.UserTokenService;
@@ -25,7 +25,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @Service
 public class PurchasesService {
     @Autowired
-    private PurchasesRepositoy purchasesRepository;
+    private PurchasesRepository purchasesRepository;
     @Autowired
     private ProductService productService;
     @Autowired

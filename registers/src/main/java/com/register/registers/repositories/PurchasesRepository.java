@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.register.registers.entities.Purchases;
 
-public interface PurchasesRepositoy extends JpaRepository<Purchases,Long>  {
+public interface PurchasesRepository extends JpaRepository<Purchases,Long>  {
     @Query("""
         SELECT p 
         FROM Purchases p
