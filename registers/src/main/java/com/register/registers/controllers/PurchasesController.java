@@ -3,6 +3,7 @@ package com.register.registers.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,14 +49,14 @@ public class PurchasesController {
     }
 
     @GetMapping("")
-    public ResponseEntity<Response<List<Purchases>>> getPurchases(
+    public ResponseEntity<Response<Page<Purchases>>> getPurchases(
             @RequestParam("sort") String sort,
-            @RequestParam("page") int page,
-            @RequestParam("size") int size,
-            @RequestParam("name") String name,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "20") int size,
+            @RequestParam(value = "name", defaultValue = "") String name,
             @RequestParam("searchBy") String searchBy,
             HttpServletRequest request) {
-        List<Purchases> purchases = purchasesService.getPurchases(request);
+        Page<Purchases> purchases = purchasesService.getPurchases(request, sort, page, size, name, searchBy);
         return responseService.buildSuccessResponse(purchases, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
 
     }

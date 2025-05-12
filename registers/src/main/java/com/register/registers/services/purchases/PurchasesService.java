@@ -7,15 +7,16 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.register.registers.constants.ErrorMessages;
 import com.register.registers.dto.MultiplePurchasesRequestDTO;
 import com.register.registers.dto.PurchaseRequestDTO;
 import com.register.registers.entities.Product;
 import com.register.registers.entities.Purchases;
 import com.register.registers.entities.Users;
-import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
 import com.register.registers.repositories.PurchasesRepository;
 import com.register.registers.services.products.ProductService;
 import com.register.registers.services.users.UserService;
@@ -65,10 +66,18 @@ public class PurchasesService {
 
     return purchasesRepository.saveAll(purchasesList);
     }
-    public List<Purchases> getPurchases(HttpServletRequest request){
+    public Page<Purchases> getPurchases(HttpServletRequest request, String sort, int page, int size, String name, String searchBy){
         Long userId = userTokenService.getCurrentUserId(request);
+        Page<Purchases> purchases = purchasesRepository.findByFilters(name, searchBy, userId, PageRequest.of(page, size, getSort(sort)));
         userService.findUserById(userId);
-        List<Purchases> purchases = purchasesRepository.findByUserUserId(userId).orElseThrow(()-> new ResourceNotFoundException(ErrorMessages.NO_DATA_FOUND));
         return purchases;
     }
+    private Sort getSort(String sortBy) {
+    return switch (sortBy) {
+        case "oldest" -> Sort.by(Sort.Direction.DESC, "purchase_date");
+        case "quantity" -> Sort.by(Sort.Direction.DESC, "quantity");
+        case "price" -> Sort.by(Sort.Direction.DESC, "price");
+        default -> Sort.by(Sort.Direction.ASC, "purchase_date");
+    };
+}
 }

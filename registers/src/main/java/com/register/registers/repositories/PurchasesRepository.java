@@ -3,6 +3,7 @@ package com.register.registers.repositories;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,7 +13,7 @@ import com.register.registers.entities.Purchases;
 
 public interface PurchasesRepository extends JpaRepository<Purchases,Long>  {
     @Query("""
-        SELECT p 
+        SELECT p
         FROM Purchases p
         JOIN p.product pr
         JOIN pr.productType prt
@@ -22,6 +23,6 @@ public interface PurchasesRepository extends JpaRepository<Purchases,Long>  {
             OR (:searchType = 'productType' AND LOWER(prt.name) LIKE LOWER(CONCAT('%', :name, '%')))
         )
     """)
-    public List<Purchases> findByFilters(@Param("name") String name, @Param("searchType") String searchType, Long userId, Pageable pageable );
+    public Page<Purchases> findByFilters(@Param("name") String name, @Param("searchType") String searchType, Long userId, Pageable pageable );
     public Optional<List<Purchases>>  findByUserUserId(Long userId);
 }
