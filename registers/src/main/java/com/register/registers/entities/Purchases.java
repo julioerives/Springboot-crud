@@ -1,6 +1,8 @@
 package com.register.registers.entities;
 
 
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -29,6 +31,7 @@ public class Purchases {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
     private int quantity;
+    private LocalDate purchaseDate;
     private Float price;
     private String description;
 

@@ -67,17 +67,24 @@ public class PurchasesService {
     return purchasesRepository.saveAll(purchasesList);
     }
     public Page<Purchases> getPurchases(HttpServletRequest request, String sort, int page, int size, String name, String searchBy){
+        System.out.println(name);
+        System.out.println(sort);
+        System.out.println(page);
+        System.out.println(size);
+        System.out.println(searchBy);;
         Long userId = userTokenService.getCurrentUserId(request);
-        Page<Purchases> purchases = purchasesRepository.findByFilters(name, searchBy, userId, PageRequest.of(page, size, getSort(sort)));
+        System.out.println(userId);
         userService.findUserById(userId);
+        Page<Purchases> purchases = purchasesRepository.findByFilters(name, searchBy, userId, PageRequest.of(page, size, getSort(sort)));
+        System.out.println(purchases.getContent());
         return purchases;
     }
     private Sort getSort(String sortBy) {
     return switch (sortBy) {
-        case "oldest" -> Sort.by(Sort.Direction.DESC, "purchase_date");
+        case "oldest" -> Sort.by(Sort.Direction.DESC, "purchaseDate");
         case "quantity" -> Sort.by(Sort.Direction.DESC, "quantity");
         case "price" -> Sort.by(Sort.Direction.DESC, "price");
-        default -> Sort.by(Sort.Direction.ASC, "purchase_date");
+        default -> Sort.by(Sort.Direction.ASC, "purchaseDate");
     };
 }
 }
