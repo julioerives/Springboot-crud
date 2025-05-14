@@ -69,11 +69,6 @@ public class PurchasesService {
     return purchasesRepository.saveAll(purchasesList);
     }
     public Page<Purchases> getPurchases(HttpServletRequest request, String sort, int page, int size, String name, String searchBy){
-        System.out.println(name);
-        System.out.println(sort);
-        System.out.println(page);
-        System.out.println(size);
-        System.out.println(searchBy);;
         Long userId = userTokenService.getCurrentUserId(request);
         System.out.println(userId);
         userService.findUserById(userId);
