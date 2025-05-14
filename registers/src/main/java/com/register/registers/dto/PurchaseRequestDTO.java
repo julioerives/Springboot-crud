@@ -1,5 +1,7 @@
 package com.register.registers.dto;
 
+import java.time.LocalDate;
+
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -18,5 +20,7 @@ public class PurchaseRequestDTO {
     private int quantity;
     @DecimalMin(value = "0.01", message = "El precio debe ser mayor a 0")
     private Float price;
+    @NotNull(message = "La fecha del dia de la compra es requerido")
+    private LocalDate purchaseDate;
     private String description = "";
 }

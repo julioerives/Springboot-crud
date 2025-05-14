@@ -57,6 +57,7 @@ public class PurchasesService {
         .map(item -> {
             Purchases purchase = new Purchases();
             purchase.setUser(user);
+            purchase.setPurchaseDate(item.getPurchaseDate());
             purchase.setDescription(item.getDescription());
             purchase.setProduct(productsMap.get(item.getProductId()));
             purchase.setQuantity(item.getQuantity());
