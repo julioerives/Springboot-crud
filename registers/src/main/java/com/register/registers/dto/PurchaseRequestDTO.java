@@ -18,4 +18,5 @@ public class PurchaseRequestDTO {
     private int quantity;
     @DecimalMin(value = "0.01", message = "El precio debe ser mayor a 0")
     private Float price;
+    private String description = "";
 }
