@@ -14,15 +14,18 @@ import org.springframework.stereotype.Service;
 
 import com.register.registers.dto.MultiplePurchasesRequestDTO;
 import com.register.registers.dto.PurchaseRequestDTO;
+import com.register.registers.dto.PurchasesResponseDTO;
 import com.register.registers.entities.Product;
 import com.register.registers.entities.Purchases;
 import com.register.registers.entities.Users;
+import com.register.registers.mappers.PurchaseMapper;
 import com.register.registers.repositories.PurchasesRepository;
 import com.register.registers.services.products.ProductService;
 import com.register.registers.services.users.UserService;
 import com.register.registers.services.users.UserTokenService;
 
 import jakarta.servlet.http.HttpServletRequest;
+
 @Service
 public class PurchasesService {
     @Autowired
@@ -32,9 +35,11 @@ public class PurchasesService {
     @Autowired
     private UserService userService;
     @Autowired
-    UserTokenService userTokenService;
+    private UserTokenService userTokenService;
+    @Autowired
+    private PurchaseMapper purchaseMapper;
 
-    public Purchases addPurchases(PurchaseRequestDTO purchaseRequestDTO,  HttpServletRequest request){
+    public Purchases addPurchases(PurchaseRequestDTO purchaseRequestDTO, HttpServletRequest request) {
         Users user = userTokenService.getCurrentUser(request);
         Product product = productService.getProducyById(purchaseRequestDTO.getProductId());
         Purchases purchase = new Purchases();
@@ -48,40 +53,43 @@ public class PurchasesService {
     public List<Purchases> addMultiplePurchase(MultiplePurchasesRequestDTO pDto, HttpServletRequest request) {
         Users user = userTokenService.getCurrentUser(request);
         Set<Long> productIds = pDto.getItems().stream()
-        .map(PurchaseRequestDTO::getProductId)
-        .collect(Collectors.toSet());
+                .map(PurchaseRequestDTO::getProductId)
+                .collect(Collectors.toSet());
         Map<Long, Product> productsMap = productService.findAllByIdIn(productIds)
-        .stream()
-        .collect(Collectors.toMap(Product::getProductId, Function.identity()));
+                .stream()
+                .collect(Collectors.toMap(Product::getProductId, Function.identity()));
         List<Purchases> purchasesList = pDto.getItems().stream()
-        .map(item -> {
-            Purchases purchase = new Purchases();
-            purchase.setUser(user);
-            purchase.setPurchaseDate(item.getPurchaseDate());
-            purchase.setDescription(item.getDescription());
-            purchase.setProduct(productsMap.get(item.getProductId()));
-            purchase.setQuantity(item.getQuantity());
-            purchase.setPrice(item.getPrice());
-            return purchase;
-        })
-        .collect(Collectors.toList());
+                .map(item -> {
+                    Purchases purchase = new Purchases();
+                    purchase.setUser(user);
+                    purchase.setPurchaseDate(item.getPurchaseDate());
+                    purchase.setDescription(item.getDescription());
+                    purchase.setProduct(productsMap.get(item.getProductId()));
+                    purchase.setQuantity(item.getQuantity());
+                    purchase.setPrice(item.getPrice());
+                    return purchase;
+                })
+                .collect(Collectors.toList());
 
-    return purchasesRepository.saveAll(purchasesList);
+        return purchasesRepository.saveAll(purchasesList);
     }
-    public Page<Purchases> getPurchases(HttpServletRequest request, String sort, int page, int size, String name, String searchBy){
+
+    public Page<?> getPurchases(HttpServletRequest request, String sort, int page, int size,
+            String name, String searchBy) {
         Long userId = userTokenService.getCurrentUserId(request);
-        System.out.println(userId);
         userService.findUserById(userId);
-        Page<Purchases> purchases = purchasesRepository.findByFilters(name, searchBy, userId, PageRequest.of(page, size, getSort(sort)));
-        System.out.println(purchases.getContent());
+        Page<?> purchases = purchasesRepository.findByFilters(name, searchBy, userId,
+                PageRequest.of(page, size, getSort(sort)));
+
         return purchases;
     }
+
     private Sort getSort(String sortBy) {
-    return switch (sortBy) {
-        case "oldest" -> Sort.by(Sort.Direction.DESC, "purchaseDate");
-        case "quantity" -> Sort.by(Sort.Direction.DESC, "quantity");
-        case "price" -> Sort.by(Sort.Direction.DESC, "price");
-        default -> Sort.by(Sort.Direction.ASC, "purchaseDate");
-    };
-}
+        return switch (sortBy) {
+            case "oldest" -> Sort.by(Sort.Direction.DESC, "purchaseDate");
+            case "quantity" -> Sort.by(Sort.Direction.DESC, "quantity");
+            case "price" -> Sort.by(Sort.Direction.DESC, "price");
+            default -> Sort.by(Sort.Direction.ASC, "purchaseDate");
+        };
+    }
 }

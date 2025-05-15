@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.register.registers.constants.SuccessResponse;
 import com.register.registers.dto.MultiplePurchasesRequestDTO;
 import com.register.registers.dto.PurchaseRequestDTO;
+import com.register.registers.dto.PurchasesResponseDTO;
 import com.register.registers.entities.Purchases;
 import com.register.registers.interfaces.Response;
 import com.register.registers.services.purchases.PurchasesService;
@@ -49,14 +50,14 @@ public class PurchasesController {
     }
 
     @GetMapping("")
-    public ResponseEntity<Response<Page<Purchases>>> getPurchases(
+    public ResponseEntity<Response<Page<?>>> getPurchases(
             @RequestParam("sort") String sort,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "20") int size,
             @RequestParam(value = "name", defaultValue = "") String name,
             @RequestParam("searchBy") String searchBy,
             HttpServletRequest request) {
-        Page<Purchases> purchases = purchasesService.getPurchases(request, sort, page, size, name, searchBy);
+        Page<?> purchases = purchasesService.getPurchases(request, sort, page, size, name, searchBy);
         return responseService.buildSuccessResponse(purchases, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
 
     }
