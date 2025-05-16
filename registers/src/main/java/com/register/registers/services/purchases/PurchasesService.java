@@ -87,10 +87,10 @@ public class PurchasesService {
 
     private Sort getSort(String sortBy) {
         return switch (sortBy) {
-            case "oldest" -> Sort.by(Sort.Direction.DESC, "purchaseDate");
+            case "oldest" -> Sort.by(Sort.Direction.ASC, "purchaseDate");
             case "quantity" -> Sort.by(Sort.Direction.DESC, "quantity");
             case "price" -> Sort.by(Sort.Direction.DESC, "price");
-            default -> Sort.by(Sort.Direction.ASC, "purchaseDate");
+            default -> Sort.by(Sort.Direction.DESC, "purchaseDate");
         };
     }
 }
