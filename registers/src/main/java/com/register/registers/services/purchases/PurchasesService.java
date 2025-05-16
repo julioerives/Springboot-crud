@@ -74,14 +74,15 @@ public class PurchasesService {
         return purchasesRepository.saveAll(purchasesList);
     }
 
-    public Page<?> getPurchases(HttpServletRequest request, String sort, int page, int size,
+    public Page<PurchasesResponseDTO> getPurchases(HttpServletRequest request, String sort, int page, int size,
             String name, String searchBy) {
         Long userId = userTokenService.getCurrentUserId(request);
         userService.findUserById(userId);
-        Page<?> purchases = purchasesRepository.findByFilters(name, searchBy, userId,
+        Page<Purchases> purchases = purchasesRepository.findByFilters(name, searchBy, userId,
                 PageRequest.of(page, size, getSort(sort)));
+        Page<PurchasesResponseDTO> purchasesDTO =purchases.map(purchaseMapper::toDto);
 
-        return purchases;
+        return purchasesDTO;
     }
 
     private Sort getSort(String sortBy) {

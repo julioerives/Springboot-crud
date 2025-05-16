@@ -50,14 +50,14 @@ public class PurchasesController {
     }
 
     @GetMapping("")
-    public ResponseEntity<Response<Page<?>>> getPurchases(
+    public ResponseEntity<Response<Page<PurchasesResponseDTO>>> getPurchases(
             @RequestParam("sort") String sort,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "20") int size,
             @RequestParam(value = "name", defaultValue = "") String name,
             @RequestParam("searchBy") String searchBy,
             HttpServletRequest request) {
-        Page<?> purchases = purchasesService.getPurchases(request, sort, page, size, name, searchBy);
+        Page<PurchasesResponseDTO> purchases = purchasesService.getPurchases(request, sort, page, size, name, searchBy);
         return responseService.buildSuccessResponse(purchases, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
 
     }
