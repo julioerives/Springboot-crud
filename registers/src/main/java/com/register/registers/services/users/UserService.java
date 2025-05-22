@@ -38,7 +38,7 @@ public class UserService {
         user.setPassword_hash(passwordEncoder.encode(user.getPassword_hash()));
         Users userReturn = new Users();
         userReturn.setEmail(user.getEmail());
-        userReturn.setPassword_hash(user.getPassword_hash());
+        userReturn.setPasswordHash(user.getPassword_hash());
         Users userInserted = userRepository.save(userReturn);
         String token = jwtService.generateToken(userInserted.getEmail(), userInserted.getUserId());
 
@@ -51,7 +51,7 @@ public class UserService {
         if (userFound.isEmpty()) {
             throw new AuthenticationException("Credenciales incorrectas");
         }
-        if (!passwordEncoder.matches(user.getPassword_hash(), userFound.get().getPassword_hash())) {
+        if (!passwordEncoder.matches(user.getPassword_hash(), userFound.get().getPasswordHash())) {
             throw new AuthenticationException("Credenciales incorrectas");
         }
         String token = jwtService.generateToken(user.getEmail(), userFound.get().getUserId());

@@ -28,7 +28,7 @@ public class Users {
     private String email;
     @Column(name = "password_hash")
     @JsonIgnore
-    private String passwordHash; 
+    private String passwordHash;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date created_at;
