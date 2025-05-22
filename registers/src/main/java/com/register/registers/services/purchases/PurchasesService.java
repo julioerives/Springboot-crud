@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.register.registers.dto.MultiplePurchasesRequestDTO;
 import com.register.registers.dto.PurchaseRequestDTO;
@@ -50,6 +51,7 @@ public class PurchasesService {
         return purchase;
     }
 
+    @Transactional
     public List<Purchases> addMultiplePurchase(MultiplePurchasesRequestDTO pDto, HttpServletRequest request) {
         Users user = userTokenService.getCurrentUser(request);
         Set<Long> productIds = pDto.getItems().stream()
@@ -80,7 +82,7 @@ public class PurchasesService {
         userService.findUserById(userId);
         Page<Purchases> purchases = purchasesRepository.findByFilters(name, searchBy, userId,
                 PageRequest.of(page, size, getSort(sort)));
-        Page<PurchasesResponseDTO> purchasesDTO =purchases.map(purchaseMapper::toDto);
+        Page<PurchasesResponseDTO> purchasesDTO = purchases.map(purchaseMapper::toDto);
 
         return purchasesDTO;
     }
