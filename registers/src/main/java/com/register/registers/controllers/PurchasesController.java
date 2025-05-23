@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.register.registers.constants.SuccessResponse;
 import com.register.registers.dto.MultiplePurchasesRequestDTO;
+import com.register.registers.dto.PageDTOResponse;
 import com.register.registers.dto.PurchaseRequestDTO;
 import com.register.registers.dto.PurchasesResponseDTO;
 import com.register.registers.entities.Purchases;
@@ -50,7 +51,7 @@ public class PurchasesController {
     }
 
     @GetMapping("")
-    public ResponseEntity<Response<Page<PurchasesResponseDTO>>> getPurchases(
+    public ResponseEntity<Response<PageDTOResponse<PurchasesResponseDTO>>> getPurchases(
             @RequestParam("sort") String sort,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "20") int size,
@@ -58,6 +59,7 @@ public class PurchasesController {
             @RequestParam("searchBy") String searchBy,
             HttpServletRequest request) {
         Page<PurchasesResponseDTO> purchases = purchasesService.getPurchases(request, sort, page, size, name, searchBy);
-        return responseService.buildSuccessResponse(purchases, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
+        PageDTOResponse<PurchasesResponseDTO> response = PageDTOResponse.of(purchases);
+        return responseService.buildSuccessResponse(response, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
     }
 }

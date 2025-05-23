@@ -45,7 +45,7 @@ public class IncomeController {
             @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
         Page<Income> pageIncome = incomeService.getIncomesByIdUser(userId, startDate, endDate, page, size);
-        PageDTOResponse<Income> response = new PageDTOResponse<>(pageIncome);
+        PageDTOResponse<Income> response = PageDTOResponse.of(pageIncome);
         return responseService.buildSuccessResponse(response, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
     }
 }

@@ -42,8 +42,8 @@ public class EventsController {
             @RequestParam("page") int page,
             @RequestParam("size") int size,
             HttpServletRequest request) {
-        Page<Events> PageResponse = this.eventsService.getAllEvents(page, size, request);
-        PageDTOResponse<Events> response = new PageDTOResponse<>(PageResponse);
+        Page<Events> pageResponse = this.eventsService.getAllEvents(page, size, request);
+        PageDTOResponse<Events> response = PageDTOResponse.of(pageResponse);
         return responseService.buildSuccessResponse(response, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
     }
 
