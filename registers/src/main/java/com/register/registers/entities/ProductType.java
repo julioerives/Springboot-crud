@@ -12,10 +12,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductType {
@@ -23,12 +26,13 @@ public class ProductType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productTypeId;
     @ManyToOne
-    @JoinColumn(name = "user_id",nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private Users user;
     private String name;
     private String description;
     private String colorRgba;
     @OneToMany(mappedBy = "productType")
+    @JsonIgnore
     private List<Product> products;
 }

@@ -24,7 +24,6 @@ import com.register.registers.repositories.PurchasesRepository;
 import com.register.registers.services.products.ProductService;
 import com.register.registers.services.users.UserService;
 import com.register.registers.services.users.UserTokenService;
-
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service
@@ -76,15 +75,21 @@ public class PurchasesService {
         return purchasesRepository.saveAll(purchasesList);
     }
 
-    public Page<PurchasesResponseDTO> getPurchases(HttpServletRequest request, String sort, int page, int size,
-            String name, String searchBy) {
+    public Page<PurchasesResponseDTO> getPurchases(
+            HttpServletRequest request,
+            String sort,
+            int page,
+            int size,
+            String name,
+            String searchBy) {
+
         Long userId = userTokenService.getCurrentUserId(request);
         userService.findUserById(userId);
-        Page<Purchases> purchases = purchasesRepository.findByFilters(name, searchBy, userId,
-                PageRequest.of(page, size, getSort(sort)));
-        Page<PurchasesResponseDTO> purchasesDTO = purchases.map(purchaseMapper::toDto);
 
-        return purchasesDTO;
+        Page<Purchases> purchases = purchasesRepository.findByFilters(
+                name, searchBy, userId, PageRequest.of(page, size, getSort(sort)));
+
+        return purchases.map(purchaseMapper::toDto);
     }
 
     private Sort getSort(String sortBy) {

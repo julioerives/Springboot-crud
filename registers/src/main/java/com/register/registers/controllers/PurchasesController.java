@@ -59,6 +59,5 @@ public class PurchasesController {
             HttpServletRequest request) {
         Page<PurchasesResponseDTO> purchases = purchasesService.getPurchases(request, sort, page, size, name, searchBy);
         return responseService.buildSuccessResponse(purchases, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
-
     }
 }
