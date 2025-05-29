@@ -72,7 +72,8 @@ public class ProductService {
 
     public Page<ProductsResponseDTO> getProductsPage(HttpServletRequest request, String name, int page, int size){
         Long userIdLong = userTokenService.getCurrentUserId(request);
-        Page<Product> products = productRepository.findByUserUserIdAndName(userIdLong, name, PageRequest.of(page, size));
+        System.out.println(userIdLong);
+        Page<Product> products = productRepository.findByUserUserIdAndNameContaining(userIdLong, name, PageRequest.of(page, size));
         if(products.isEmpty()){
             throw new ResourceNotFoundException("Productos no encontrados");
         }
