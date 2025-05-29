@@ -4,13 +4,17 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.register.registers.dto.ProductRequestDTO;
+import com.register.registers.dto.ProductsResponseDTO;
 import com.register.registers.entities.Product;
 import com.register.registers.entities.ProductType;
 import com.register.registers.entities.Users;
 import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
+import com.register.registers.mappers.ProductMapper;
 import com.register.registers.repositories.ProductRepository;
 import com.register.registers.services.users.UserService;
 import com.register.registers.services.users.UserTokenService;
@@ -27,6 +31,8 @@ public class ProductService {
     UserService userService;
     @Autowired
     UserTokenService userTokenService;
+    @Autowired
+    private ProductMapper productMapper;
 
     public Product addProduct(ProductRequestDTO productDTO, HttpServletRequest request) {
         Users user = userTokenService.getCurrentUser(request);
@@ -62,5 +68,15 @@ public class ProductService {
             throw new ResourceNotFoundException("Productos no existen");
         }
         return products;
+    }
+
+    public Page<ProductsResponseDTO> getProductsPage(HttpServletRequest request, String name, int page, int size){
+        Long userIdLong = userTokenService.getCurrentUserId(request);
+        Page<Product> products = productRepository.findByUserUserIdAndName(userIdLong, name, PageRequest.of(page, size));
+        if(products.isEmpty()){
+            throw new ResourceNotFoundException("Productos no encontrados");
+        }
+        return products.map(productMapper::toDto);
+
     }
 }
