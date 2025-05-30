@@ -53,13 +53,20 @@ public class ProductsController {
 
     @GetMapping("/page")
     public ResponseEntity<Response<PageDTOResponse<ProductsResponseDTO>>> getProductsPage(
-    @RequestParam(value ="page", defaultValue = "0") int page,
-    @RequestParam(value = "size", defaultValue = "10") int size,
-    @RequestParam(value = "name", defaultValue = "") String name,
-    HttpServletRequest request) {
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "name", defaultValue = "") String name,
+            HttpServletRequest request) {
         Page<ProductsResponseDTO> products = productService.getProductsPage(request, name, page, size);
         PageDTOResponse<ProductsResponseDTO> response = PageDTOResponse.of(products);
         return responseService.buildSuccessResponse(response, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
 
+    }
+
+    @GetMapping("/stats")
+    public ResponseEntity<Response<List<Object[]>>> getProductStats(
+            HttpServletRequest request) {
+        List<Object[]> response = productService.getProductsStats(request);
+        return responseService.buildSuccessResponse(response, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
     }
 }

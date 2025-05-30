@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.register.model.projection.MostBoughtProductProjection;
+import com.register.model.projection.PriceStatsProjection;
 import com.register.registers.dto.ProductRequestDTO;
 import com.register.registers.dto.ProductsResponseDTO;
 import com.register.registers.entities.Product;
@@ -78,5 +80,13 @@ public class ProductService {
         }
         return products.map(productMapper::toDto);
 
+    }
+
+    public List<Object[]> getProductsStats(HttpServletRequest request) {
+        Long userId = userTokenService.getCurrentUserId(request);
+        PriceStatsProjection priceStats = productRepository.findPriceStats(userId);
+
+        MostBoughtProductProjection topProducts = productRepository.findMostPurchasedProduct(userId);
+        return stats;
     }
 }
