@@ -13,7 +13,7 @@ import com.register.model.projection.MostBoughtProductProjection;
 import com.register.model.projection.PriceStatsProjection;
 import com.register.registers.entities.Product;
 
-public interface ProductRepository extends JpaRepository<Product,Long> {
+public interface ProductRepository extends JpaRepository<Product, Long> {
         List<Product> findByUserUserId(Long userId);
 
         @Query("SELECT p FROM Product p WHERE p.productId IN :ids")
@@ -21,28 +21,28 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
         Page<Product> findByUserUserIdAndNameContainingIgnoreCase(Long userId, String name, Pageable pageable);
 
-        @Query("""
-        (
-                SELECT AVG(price)
-                FROM products
-                WHERE user_id = :userId
-        ) AS average_price,
-        (
-                SELECT MAX(price)
-                FROM products
-                WHERE user_id = :userId
-        ) AS most_expensive
-        """)
+        @Query(value = """
+                SELECT   average_price,most_expensive from      (
+                SELECT AVG(price) AS average_price
+                FROM Product
+                WHERE user_id = :user_id
+        ),        (
+                SELECT MAX(price) AS most_expensive
+                FROM Product
+                WHERE user_id = :user_id
+        )
+        """, nativeQuery = true)
         PriceStatsProjection findPriceStats(@Param("user_id") Long user_id);
+
         @Query("""
-        SELECT p.name, SUM(pu.quantity) AS totalProduct
-        FROM Purchase pu
-        JOIN pu.product p
-        WHERE pu.user.id = :userId
-        GROUP BY p.id, p.name
-        ORDER BY totalProduct DESC
-        LIMIT 1
-        """)
+                        SELECT p.name, SUM(pu.quantity) AS totalProduct
+                        FROM Purchases pu
+                        JOIN pu.product p
+                        WHERE pu.user.id = :userId
+                        GROUP BY p.id, p.name
+                        ORDER BY totalProduct DESC
+                        LIMIT 1
+                        """)
         MostBoughtProductProjection findMostPurchasedProduct(@Param("userId") Long userId);
 
 }

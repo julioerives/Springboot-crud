@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.register.model.projection.MostBoughtProductProjection;
 import com.register.model.projection.PriceStatsProjection;
 import com.register.registers.dto.ProductRequestDTO;
+import com.register.registers.dto.ProductStatsDTO;
 import com.register.registers.dto.ProductsResponseDTO;
 import com.register.registers.entities.Product;
 import com.register.registers.entities.ProductType;
@@ -82,11 +83,12 @@ public class ProductService {
 
     }
 
-    public List<Object[]> getProductsStats(HttpServletRequest request) {
+    public ProductStatsDTO getProductsStats(HttpServletRequest request) {
         Long userId = userTokenService.getCurrentUserId(request);
         PriceStatsProjection priceStats = productRepository.findPriceStats(userId);
 
         MostBoughtProductProjection topProducts = productRepository.findMostPurchasedProduct(userId);
-        return stats;
+        ProductStatsDTO productStatsDTO = new ProductStatsDTO(priceStats, topProducts);
+        return productStatsDTO;
     }
 }

@@ -17,6 +17,7 @@ import com.register.registers.constants.ErrorMessages;
 import com.register.registers.constants.SuccessResponse;
 import com.register.registers.dto.PageDTOResponse;
 import com.register.registers.dto.ProductRequestDTO;
+import com.register.registers.dto.ProductStatsDTO;
 import com.register.registers.dto.ProductsResponseDTO;
 import com.register.registers.entities.Product;
 import com.register.registers.interfaces.Response;
@@ -64,9 +65,9 @@ public class ProductsController {
     }
 
     @GetMapping("/stats")
-    public ResponseEntity<Response<List<Object[]>>> getProductStats(
+    public ResponseEntity<Response<ProductStatsDTO>> getProductStats(
             HttpServletRequest request) {
-        List<Object[]> response = productService.getProductsStats(request);
+        ProductStatsDTO response = productService.getProductsStats(request);
         return responseService.buildSuccessResponse(response, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
     }
 }
