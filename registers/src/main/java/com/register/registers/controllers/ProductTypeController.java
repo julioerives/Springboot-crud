@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,8 +36,8 @@ public class ProductTypeController {
     }
 
     @GetMapping("/byUser")
-    public ResponseEntity<Response<List<ProductType>>> getProductsTypeByUser(@PathVariable Long id_user, HttpServletRequest request) {
-        List<ProductType> response = productTypeService.getProductTypesUser(id_user);
+    public ResponseEntity<Response<List<ProductType>>> getProductsTypeByUser(HttpServletRequest request) {
+        List<ProductType> response = productTypeService.getProductTypesUser(request);
         if (response.size() < 1) {
             return responseService.buildErrorResponse(ErrorMessages.NO_DATA_FOUND, HttpStatus.NOT_FOUND);
         }
