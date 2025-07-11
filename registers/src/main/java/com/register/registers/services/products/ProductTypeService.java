@@ -9,6 +9,7 @@ import com.register.registers.dto.ProductTypeRequestDTO;
 import com.register.registers.entities.ProductType;
 import com.register.registers.entities.Users;
 import com.register.registers.exceptions.producTypeExceptions.ProductTypeNotFound;
+import com.register.registers.mappers.ProductTypeMapper;
 import com.register.registers.repositories.ProductTypeRepository;
 import com.register.registers.services.users.UserTokenService;
 
@@ -21,16 +22,15 @@ public class ProductTypeService {
     @Autowired
     UserTokenService userTokenService;
 
+    @Autowired
+    ProductTypeMapper productTypeMapper;
+
     public List<ProductType> getProductType() {
         return productTypeRepository.findAll();
     }
     public ProductType addProductType(ProductTypeRequestDTO productTypeDTO, HttpServletRequest request) {
         Users user = userTokenService.getCurrentUser(request);
-        ProductType productType = new ProductType();
-        productType.setUser(user);
-        productType.setName(productTypeDTO.getName());
-        productType.setDescription(productTypeDTO.getDescription());
-
+        ProductType productType = productTypeMapper.toEntity(productTypeDTO, user);
         return productTypeRepository.save(productType);
     }
     public List<ProductType> getProductTypesUser(Long id_user) {
