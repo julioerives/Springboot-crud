@@ -35,11 +35,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
         PriceStatsProjection findPriceStats(@Param("user_id") Long user_id);
 
         @Query("""
-                        SELECT p.name, SUM(pu.quantity) AS totalProduct
+                        SELECT p.name As name, COUNT(pu.product) AS totalProduct
                         FROM Purchases pu
                         JOIN pu.product p
                         WHERE pu.user.id = :userId
-                        GROUP BY p.id, p.name
+                        GROUP BY p.id
                         ORDER BY totalProduct DESC
                         LIMIT 1
                         """)
