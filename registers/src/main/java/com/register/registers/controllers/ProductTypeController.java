@@ -35,7 +35,7 @@ public class ProductTypeController {
         return responseService.buildSuccessResponse(productType, SuccessResponse.SUCCESS_POST, HttpStatus.CREATED);
     }
 
-    @GetMapping("/byUser")
+    @GetMapping("")
     public ResponseEntity<Response<List<ProductType>>> getProductsTypeByUser(HttpServletRequest request) {
         List<ProductType> response = productTypeService.getProductTypesUser(request);
         if (response.size() < 1) {
