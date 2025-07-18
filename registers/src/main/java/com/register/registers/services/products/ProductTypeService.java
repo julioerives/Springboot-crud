@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.register.registers.dto.ProductTypeRequestDTO;
+import com.register.registers.dto.ProductTypeResponseDTO;
 import com.register.registers.entities.ProductType;
 import com.register.registers.entities.Users;
 import com.register.registers.exceptions.producTypeExceptions.ProductTypeNotFound;
@@ -36,10 +37,10 @@ public class ProductTypeService {
     public List<ProductType> getProductTypesUser(Long id_user) {
         return productTypeRepository.findByUserUserId(id_user);
     }
-    public List<ProductType> getProductTypesUser(HttpServletRequest request) {
+    public List<ProductTypeResponseDTO> getProductTypesUser(HttpServletRequest request) {
         Long id_user = userTokenService.getCurrentUserId(request);
-
-        return productTypeRepository.findByUserUserId(id_user);
+        List<ProductType> data = productTypeRepository.findByUserUserId(id_user);
+        return productTypeMapper.tDto(data);
     }
     public ProductType getProductTypeByIdAndUser(Long productTypeId,Long id_user) {
         return productTypeRepository.findByProductTypeIdAndUserUserId(productTypeId,id_user).orElseThrow(()-> new ProductTypeNotFound("Tipo de producto no encontrado."));

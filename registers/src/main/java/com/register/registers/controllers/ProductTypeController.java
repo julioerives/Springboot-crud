@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.register.registers.constants.ErrorMessages;
 import com.register.registers.constants.SuccessResponse;
 import com.register.registers.dto.ProductTypeRequestDTO;
+import com.register.registers.dto.ProductTypeResponseDTO;
 import com.register.registers.entities.ProductType;
 import com.register.registers.interfaces.Response;
 import com.register.registers.services.products.ProductTypeService;
@@ -36,11 +36,8 @@ public class ProductTypeController {
     }
 
     @GetMapping("")
-    public ResponseEntity<Response<List<ProductType>>> getProductsTypeByUser(HttpServletRequest request) {
-        List<ProductType> response = productTypeService.getProductTypesUser(request);
-        if (response.size() < 1) {
-            return responseService.buildErrorResponse(ErrorMessages.NO_DATA_FOUND, HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Response<List<ProductTypeResponseDTO>>> getProductsTypeByUser(HttpServletRequest request) {
+        List<ProductTypeResponseDTO> response = productTypeService.getProductTypesUser(request);
         return responseService.buildSuccessResponse(response, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
 
     }
