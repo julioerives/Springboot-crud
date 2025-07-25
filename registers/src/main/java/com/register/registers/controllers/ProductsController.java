@@ -19,7 +19,7 @@ import com.register.registers.dto.PageDTOResponse;
 import com.register.registers.dto.ProductRequestDTO;
 import com.register.registers.dto.ProductStatsDTO;
 import com.register.registers.dto.ProductsResponseDTO;
-import com.register.registers.entities.Product;
+import com.register.registers.entities.postgres.Product;
 import com.register.registers.interfaces.Response;
 import com.register.registers.services.products.ProductService;
 import com.register.registers.services.utils.ResponseService;

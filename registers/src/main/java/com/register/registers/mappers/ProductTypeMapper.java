@@ -7,8 +7,8 @@ import org.mapstruct.Mapping;
 
 import com.register.registers.dto.ProductTypeRequestDTO;
 import com.register.registers.dto.ProductTypeResponseDTO;
-import com.register.registers.entities.ProductType;
-import com.register.registers.entities.Users;
+import com.register.registers.entities.postgres.ProductType;
+import com.register.registers.entities.postgres.Users;
 
 @Mapper(componentModel = "spring")
 public interface ProductTypeMapper {

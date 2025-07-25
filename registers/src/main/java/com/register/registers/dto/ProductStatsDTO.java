@@ -1,7 +1,7 @@
 package com.register.registers.dto;
 
-import com.register.model.projection.MostBoughtProductProjection;
-import com.register.model.projection.PriceStatsProjection;
+import com.register.registers.model.projection.MostBoughtProductProjection;
+import com.register.registers.model.projection.PriceStatsProjection;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

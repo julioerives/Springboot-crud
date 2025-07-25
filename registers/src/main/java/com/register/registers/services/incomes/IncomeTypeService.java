@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.register.registers.dto.IncomeTypeRequestDTO;
-import com.register.registers.entities.IncomeType;
-import com.register.registers.entities.Users;
+import com.register.registers.entities.postgres.IncomeType;
+import com.register.registers.entities.postgres.Users;
 import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
-import com.register.registers.repositories.IncomeTypeRepository;
+import com.register.registers.repositories.postgres.IncomeTypeRepository;
 import com.register.registers.services.users.UserService;
 
 @Service

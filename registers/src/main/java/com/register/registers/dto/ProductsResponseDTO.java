@@ -1,6 +1,6 @@
 package com.register.registers.dto;
 
-import com.register.registers.entities.ProductType;
+import com.register.registers.entities.postgres.ProductType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

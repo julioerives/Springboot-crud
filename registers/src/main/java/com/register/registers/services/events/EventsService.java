@@ -10,11 +10,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.register.registers.dto.EventsDTO;
-import com.register.registers.entities.Events;
-import com.register.registers.entities.Users;
+import com.register.registers.entities.mongo.Events;
+import com.register.registers.entities.postgres.Users;
 import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
 import com.register.registers.exceptions.defaultExceptions.UnauthorizedActionException;
-import com.register.registers.repositories.EventsRepository;
+import com.register.registers.repositories.mongo.EventsRepository;
 import com.register.registers.services.jwtServices.JWTService;
 import com.register.registers.services.users.UserService;
 import com.register.registers.services.users.UserTokenService;

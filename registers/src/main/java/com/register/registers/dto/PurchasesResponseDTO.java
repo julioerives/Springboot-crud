@@ -2,7 +2,7 @@ package com.register.registers.dto;
 
 import java.time.LocalDate;
 
-import com.register.registers.entities.Product;
+import com.register.registers.entities.postgres.Product;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

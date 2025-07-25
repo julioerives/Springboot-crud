@@ -1,4 +1,4 @@
-package com.register.registers.entities;
+package com.register.registers.entities.mongo;
 
 import java.time.LocalDateTime;
 
@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.register.registers.entities.postgres.Users;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

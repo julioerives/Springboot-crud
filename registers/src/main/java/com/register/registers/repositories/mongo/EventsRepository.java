@@ -1,8 +1,8 @@
-package com.register.registers.repositories;
+package com.register.registers.repositories.mongo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.register.registers.entities.Events;
+import com.register.registers.entities.mongo.Events;
 
 import java.time.LocalDateTime;
 import java.util.List;

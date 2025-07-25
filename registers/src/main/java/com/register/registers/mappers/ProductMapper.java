@@ -3,7 +3,7 @@ package com.register.registers.mappers;
 import org.mapstruct.Mapper;
 
 import com.register.registers.dto.ProductsResponseDTO;
-import com.register.registers.entities.Product;
+import com.register.registers.entities.postgres.Product;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {

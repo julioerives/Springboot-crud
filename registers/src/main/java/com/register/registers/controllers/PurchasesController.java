@@ -18,7 +18,7 @@ import com.register.registers.dto.MultiplePurchasesRequestDTO;
 import com.register.registers.dto.PageDTOResponse;
 import com.register.registers.dto.PurchaseRequestDTO;
 import com.register.registers.dto.PurchasesResponseDTO;
-import com.register.registers.entities.Purchases;
+import com.register.registers.entities.postgres.Purchases;
 import com.register.registers.interfaces.Response;
 import com.register.registers.services.purchases.PurchasesService;
 import com.register.registers.services.utils.ResponseService;

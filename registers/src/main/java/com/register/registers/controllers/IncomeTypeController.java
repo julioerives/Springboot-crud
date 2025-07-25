@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.register.registers.constants.SuccessResponse;
 import com.register.registers.dto.IncomeTypeRequestDTO;
-import com.register.registers.entities.IncomeType;
+import com.register.registers.entities.postgres.IncomeType;
 import com.register.registers.interfaces.Response;
 import com.register.registers.services.incomes.IncomeTypeService;
 import com.register.registers.services.utils.ResponseService;

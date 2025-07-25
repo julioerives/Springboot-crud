@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.register.registers.constants.SuccessResponse;
 import com.register.registers.dto.LoginDTO;
-import com.register.registers.entities.Users;
+import com.register.registers.entities.postgres.Users;
 import com.register.registers.interfaces.Response;
 import com.register.registers.services.users.UserService;
 import com.register.registers.services.utils.ResponseService;

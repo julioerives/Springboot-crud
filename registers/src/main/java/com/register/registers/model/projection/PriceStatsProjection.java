@@ -1,4 +1,4 @@
-package com.register.model.projection;
+package com.register.registers.model.projection;
 
 public interface PriceStatsProjection {
     Double getAveragePrice();

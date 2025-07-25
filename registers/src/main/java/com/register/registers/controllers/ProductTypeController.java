@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.register.registers.constants.SuccessResponse;
 import com.register.registers.dto.ProductTypeRequestDTO;
 import com.register.registers.dto.ProductTypeResponseDTO;
-import com.register.registers.entities.ProductType;
+import com.register.registers.entities.postgres.ProductType;
 import com.register.registers.interfaces.Response;
 import com.register.registers.services.products.ProductTypeService;
 import com.register.registers.services.utils.ResponseService;

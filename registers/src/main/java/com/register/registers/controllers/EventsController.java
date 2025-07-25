@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.register.registers.constants.SuccessResponse;
 import com.register.registers.dto.EventsDTO;
 import com.register.registers.dto.PageDTOResponse;
-import com.register.registers.entities.Events;
+import com.register.registers.entities.mongo.Events;
 import com.register.registers.interfaces.Response;
 import com.register.registers.services.events.EventsService;
 import com.register.registers.services.utils.ResponseService;

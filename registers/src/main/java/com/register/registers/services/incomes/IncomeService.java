@@ -5,10 +5,10 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.register.registers.dto.IncomeRequestDTO;
-import com.register.registers.entities.Income;
-import com.register.registers.entities.IncomeType;
-import com.register.registers.entities.Users;
-import com.register.registers.repositories.IncomeRepository;
+import com.register.registers.entities.postgres.Income;
+import com.register.registers.entities.postgres.IncomeType;
+import com.register.registers.entities.postgres.Users;
+import com.register.registers.repositories.postgres.IncomeRepository;
 import com.register.registers.services.users.UserService;
 
 import org.springframework.data.domain.Pageable;

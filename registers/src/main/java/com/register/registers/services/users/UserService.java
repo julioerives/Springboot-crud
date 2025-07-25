@@ -8,11 +8,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.register.registers.dto.LoginDTO;
-import com.register.registers.entities.Users;
+import com.register.registers.entities.postgres.Users;
 import com.register.registers.exceptions.UsersExceptions.UserNotFoundException;
 import com.register.registers.exceptions.authExceptions.AuthenticationException;
 import com.register.registers.exceptions.authExceptions.EmailUsedException;
-import com.register.registers.repositories.UserRepository;
+import com.register.registers.repositories.postgres.UserRepository;
 import com.register.registers.services.jwtServices.JWTService;
 import com.register.registers.services.utils.CookiesService;
 

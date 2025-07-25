@@ -8,17 +8,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.register.model.projection.MostBoughtProductProjection;
-import com.register.model.projection.PriceStatsProjection;
 import com.register.registers.dto.ProductRequestDTO;
 import com.register.registers.dto.ProductStatsDTO;
 import com.register.registers.dto.ProductsResponseDTO;
-import com.register.registers.entities.Product;
-import com.register.registers.entities.ProductType;
-import com.register.registers.entities.Users;
+import com.register.registers.entities.postgres.Product;
+import com.register.registers.entities.postgres.ProductType;
+import com.register.registers.entities.postgres.Users;
 import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
 import com.register.registers.mappers.ProductMapper;
-import com.register.registers.repositories.ProductRepository;
+import com.register.registers.model.projection.MostBoughtProductProjection;
+import com.register.registers.model.projection.PriceStatsProjection;
+import com.register.registers.repositories.postgres.ProductRepository;
 import com.register.registers.services.users.UserService;
 import com.register.registers.services.users.UserTokenService;
 
