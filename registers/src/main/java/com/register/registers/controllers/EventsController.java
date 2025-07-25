@@ -55,14 +55,14 @@ public class EventsController {
     }
 
     @DeleteMapping("/{eventId}")
-    public ResponseEntity<Response<Object>> deleteEvent(@PathVariable("eventId") Long eventId,
+    public ResponseEntity<Response<Object>> deleteEvent(@PathVariable("eventId") String eventId,
             HttpServletRequest request) {
         this.eventsService.deleteEvent(eventId, request);
         return responseService.buildSuccessResponse(null, SuccessResponse.SUCCESS_DELETE, HttpStatus.OK);
     }
 
     @PutMapping("/{eventId}")
-    public ResponseEntity<Response<Events>> updateEvent(@PathVariable("eventId") Long eventId,
+    public ResponseEntity<Response<Events>> updateEvent(@PathVariable("eventId") String eventId,
             @Valid @RequestBody EventsDTO eventsDTO, HttpServletRequest request) {
         Events event = this.eventsService.updateEvent(eventId, eventsDTO, request);
         return responseService.buildSuccessResponse(event, SuccessResponse.SUCCESS_PUT, HttpStatus.OK);

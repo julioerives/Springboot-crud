@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.register.registers.dto.EventsDTO;
 import com.register.registers.entities.mongo.Events;
-import com.register.registers.entities.postgres.Users;
 import com.register.registers.exceptions.defaultExceptions.ResourceNotFoundException;
 import com.register.registers.exceptions.defaultExceptions.UnauthorizedActionException;
+import com.register.registers.mappers.EventsMapper;
 import com.register.registers.repositories.mongo.EventsRepository;
 import com.register.registers.services.jwtServices.JWTService;
 import com.register.registers.services.users.UserService;
@@ -34,6 +34,9 @@ public class EventsService {
     UserService userService;
     @Autowired
     UserTokenService userTokenService;
+    @Autowired
+    EventsMapper eventsMapper;
+
 
     public Page<Events> getAllEvents(int page, int size, HttpServletRequest request) {
         if (page < 0 || size <= 0) {
@@ -42,45 +45,38 @@ public class EventsService {
         Long userId = userTokenService.getCurrentUserId(request);
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<Events> events = this.eventsRepository.findByUserUserId(userId, pageable);
+        Page<Events> events = this.eventsRepository.findByUserId(userId, pageable);
         if (events.isEmpty()) {
             throw new ResourceNotFoundException("Eventos no encontrados");
         }
         return events;
     }
 
-    public Events findEventById(Long eventId) {
+    public Events findEventById(String eventId) {
         Events event = this.eventsRepository.findById(eventId)
         .orElseThrow(() -> new ResourceNotFoundException("Evento no encontrado"));
         return event;
     }
 
     public Events addEvent(EventsDTO eventsDTO, HttpServletRequest request) {
-        Events event = new Events();
-        Users user = userTokenService.getCurrentUser(request);
-        event.setUser(user);
-        event.setEventName(eventsDTO.getEventName());
-        event.setStartDate(eventsDTO.getStartDate());
-        event.setEndDate(eventsDTO.getEndDate());
-        event.setPhoneNotifications(eventsDTO.getPhoneNotifications());
-        event.setWebNotifications(eventsDTO.getWebNotifications());
-        event.setMinutesAdvice(eventsDTO.getMinutesAdvice());
+        Long userId = userTokenService.getCurrentUserId(request);
+        Events event = eventsMapper.toEntity(eventsDTO, userId);
         return this.eventsRepository.save(event);
     }
 
-    public void deleteEvent(Long eventId, HttpServletRequest request) {
+    public void deleteEvent(String eventId, HttpServletRequest request) {
         Long userId = userTokenService.getCurrentUserId(request);
         Events event = findEventById(eventId);
-        if (event.getUser().getUserId() != userId) {
+        if (event.getUserId() != userId) {
             throw new UnauthorizedActionException("No tienes permiso para eliminar este evento");
         }
         this.eventsRepository.delete(event);
     }
 
-    public Events updateEvent(Long eventId, EventsDTO eventsDTO, HttpServletRequest request) {
+    public Events updateEvent(String eventId, EventsDTO eventsDTO, HttpServletRequest request) {
         Long userId = userTokenService.getCurrentUserId(request);
         Events event = findEventById(eventId);
-        if (event.getUser().getUserId() != userId) {
+        if (event.getUserId() != userId) {
             throw new UnauthorizedActionException("No tienes permiso para actualizar este evento");
         }
         event.setEventName(eventsDTO.getEventName());
@@ -94,7 +90,7 @@ public class EventsService {
 
     public List<Events> getEventsByDates(LocalDateTime startDate, LocalDateTime endDate, HttpServletRequest request) {
         Long userId = userTokenService.getCurrentUserId(request);
-        List<Events> event = this.eventsRepository.findByUserUserIdAndStartDateBetween(userId, startDate, endDate);
+        List<Events> event = this.eventsRepository.findByUserIdAndStartDateBetween(userId, startDate, endDate);
         if (event.isEmpty()) {
             throw new ResourceNotFoundException("Eventos no encontrados");
         }
