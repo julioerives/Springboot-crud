@@ -1,5 +1,6 @@
 package com.register.registers.controllers;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.register.registers.constants.SuccessResponse;
+import com.register.registers.dto.EventInstance;
 import com.register.registers.dto.EventsDTO;
 import com.register.registers.dto.PageDTOResponse;
 import com.register.registers.entities.mongo.Events;
@@ -38,12 +40,14 @@ public class EventsController {
     EventsService eventsService;
 
     @GetMapping("")
-    public ResponseEntity<Response<PageDTOResponse<Events>>> getEvents(
-            @RequestParam("page") int page,
-            @RequestParam("size") int size,
+    public ResponseEntity<Response<PageDTOResponse<EventInstance>>> getEvents(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             HttpServletRequest request) {
-        Page<Events> pageResponse = this.eventsService.getAllEvents(page, size, request);
-        PageDTOResponse<Events> response = PageDTOResponse.of(pageResponse);
+        Page<EventInstance> pageResponse = this.eventsService.getAllEvents(page, size, startDate, endDate, request);
+        PageDTOResponse<EventInstance> response = PageDTOResponse.of(pageResponse);
         return responseService.buildSuccessResponse(response, SuccessResponse.SUCCESS_GET, HttpStatus.OK);
     }
 

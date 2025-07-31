@@ -1,6 +1,9 @@
 package com.register.registers.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -27,5 +30,22 @@ public class EventsDTO {
     private Boolean webNotifications;
     @NotNull(message = "El campo de minutos del aviso es obligatorio")
     private int minutesAdvice;
+    @NotNull(message = "El campo de si es recurrente es obligatorio")
+    private Boolean isRecurrent;
+    private List<Integer> daysOfWeek;
+
+    @AssertTrue(message = "Si el evento es recurrente, debes especificar los días de la semana")
+    public boolean isDaysOfWeekValid() {
+        if (Boolean.TRUE.equals(isRecurrent)) {
+            return daysOfWeek != null && !daysOfWeek.isEmpty();
+        }
+        return true;
+    }
+
+    @AssertTrue(message = "Los días de la semana deben estar entre 1 (Lunes) y 7 (Domingo)")
+    public boolean areDaysOfWeekValid() {
+        return daysOfWeek.stream()
+                .allMatch(day -> day != null && day >= 1 && day <= 7);
+    }
 
 }

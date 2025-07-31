@@ -8,10 +8,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 public interface EventsRepository extends MongoRepository<Events, String> {
-    Page<Events> findByUserId(Long userId, Pageable pageable);
+    List<Events> findByUserId(Long userId);
 
 
     List<Events> findByUserIdAndStartDateBetween(Long userId, LocalDateTime start, LocalDateTime end);
