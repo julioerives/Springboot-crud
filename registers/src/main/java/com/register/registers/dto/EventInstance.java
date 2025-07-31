@@ -26,6 +26,5 @@ public class EventInstance {
         this.minutesAdvice = event.getMinutesAdvice();
     }
 
-    // Getters y setters
 }
 
