@@ -3,6 +3,7 @@ package com.register.registers.services.events;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -76,7 +77,7 @@ public class EventsService {
             }
 
             if (isWithinRange(event.getStartDate().toLocalDate(), rangeStart, rangeEnd)) {
-                instances.add(new EventInstance(event, event.getStartDate()));
+                instances.add(new EventInstance(event, event.getStartDate(), event.getEndDate()));
             }
         }
 
@@ -103,7 +104,7 @@ public class EventsService {
             LocalDateTime startDate = date.atTime(eventStart.toLocalTime());
 
             if (!exDates.contains(startDate)) {
-                instances.add(new EventInstance(event, startDate));
+                instances.add(new EventInstance(event, startDate, adjustedEnd));
             }
         }
 
@@ -122,6 +123,7 @@ public class EventsService {
     }
 
     private Page<EventInstance> getPaginatedResult(List<EventInstance> events, Pageable pageable) {
+        events.sort(Comparator.comparing(EventInstance::getStartDate));
         int start = Math.min((int) pageable.getOffset(), events.size());
         int end = Math.min(start + pageable.getPageSize(), events.size());
         List<EventInstance> content = events.subList(start, end);
